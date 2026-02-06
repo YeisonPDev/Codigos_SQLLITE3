@@ -7,133 +7,310 @@
     <title>Lista de Salida</title>
     <link rel="icon" href="img/logo.png" type="image/x-icon">
 
-    <!-- Bootstrap 4 CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/styles.css">
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'corporate-red': '#DC2626',
+                        'corporate-blue': '#1E3A8A',
+                        'corporate-skyblue': '#3B82F6',
+                        'corporate-white': '#FFFFFF',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Estilos personalizados */
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .theme-dark {
+            background-color: #1a1a2e;
+            color: #eee;
+        }
+
+        .theme-dark .card-custom {
+            background-color: #16213e;
+            border-color: #0f3460;
+        }
+
+        .theme-dark .input-custom {
+            background-color: #0f3460;
+            color: #eee;
+            border-color: #1a1a2e;
+        }
+
+        .theme-dark .nav-custom {
+            background-color: #0f3460;
+            border-color: #1a1a2e;
+        }
+
+        .theme-dark .list-item-custom {
+            background-color: #16213e;
+            border-color: #0f3460;
+        }
+
+        .theme-dark .list-item-custom:hover {
+            background-color: #1a1a2e;
+        }
+
+        .theme-dark .footer-custom {
+            background-color: #0f1419;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #1E3A8A;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: none;
+            z-index: 9999;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        #copyArea {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .footer-custom {
+            background: #111827;
+        }
+
+        .card-shadow {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .card-shadow:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .theme-toggle-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+
+        .nav-shadow {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+        }
+    </style>
 </head>
 
-<body>
-    <!-- Navbar Bootstrap -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-        <img src="img/logo.png" alt="logo" width="50" height="50" class="d-inline-block align-top mr-2 "
-            style="border-radius: 50%;">
-        <a class="navbar-brand brand-link" href="index.html">Gestión Estudiantes</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.html">Inicio</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="grados.html">Grados</a>
-                </li>
-                <li class="nav-item" id="btnLoginNav">
-                    <a class="nav-link" href="login.html">Admin</a>
-                </li>
-                <li class="nav-item d-none" id="btnLogoutNav">
-                    <a class="nav-link text-danger" href="#" onclick="logout()">Salir</a>
-                </li>
-            </ul>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    <!-- Navbar -->
+    <nav class="nav-custom bg-white border-b border-gray-200 nav-shadow">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <img src="img/logo.png" alt="logo" class="w-10 h-10 rounded-full mr-3 border-2 border-corporate-blue">
+                    <a href="index.html" class="text-corporate-blue text-xl font-bold hover:text-corporate-skyblue transition-colors">
+                        Gestión Estudiantes
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button id="mobileMenuBtn" class="md:hidden text-corporate-blue focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+
+                <!-- Desktop menu -->
+                <div class="hidden md:flex items-center space-x-1">
+                    <a href="index.html" class="text-gray-700 hover:text-corporate-blue hover:bg-gray-50 px-4 py-2 rounded-md transition-all font-medium">
+                        Inicio
+                    </a>
+                    <a href="grados.html" class="text-gray-700 hover:text-corporate-blue hover:bg-gray-50 px-4 py-2 rounded-md transition-all font-medium">
+                        Grados
+                    </a>
+                    <a href="login.html" id="btnLoginNav" class="text-gray-700 hover:text-corporate-blue hover:bg-gray-50 px-4 py-2 rounded-md transition-all font-medium">
+                        Admin
+                    </a>
+                    <a href="#" id="btnLogoutNav" onclick="logout()" class="hidden text-corporate-red hover:bg-red-50 px-4 py-2 rounded-md transition-all font-medium">
+                        Salir
+                    </a>
+                </div>
+            </div>
+
+            <!-- Mobile menu -->
+            <div id="mobileMenu" class="hidden md:hidden pb-3 border-t border-gray-100 mt-2 pt-2">
+                <a href="index.html" class="block text-gray-700 hover:text-corporate-blue hover:bg-gray-50 px-3 py-2 rounded-md transition-all font-medium">
+                    Inicio
+                </a>
+                <a href="grados.html" class="block text-gray-700 hover:text-corporate-blue hover:bg-gray-50 px-3 py-2 rounded-md transition-all font-medium">
+                    Grados
+                </a>
+                <a href="login.html" class="block text-gray-700 hover:text-corporate-blue hover:bg-gray-50 px-3 py-2 rounded-md transition-all font-medium">
+                    Admin
+                </a>
+            </div>
         </div>
     </nav>
 
-    <div class="container py-3">
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-4 py-8 max-w-6xl">
         <!-- Título principal -->
-        <h1 class="text-center mb-4 h1-custom text-primary-color">Buscar Estudiante</h1>
+        <h1 class="text-3xl md:text-4xl font-bold text-center mb-8 text-corporate-blue">
+            Buscar Estudiante
+        </h1>
 
         <!-- Buscador -->
-        <form class="mb-3">
-            <div class="form-row align-items-center">
-                <div class="col-12 col-md-10 mb-2 mb-md-0">
-                    <input type="text" class="form-control form-control-lg" id="searchBox"
-                        placeholder="Escribe el nombre o código...">
-                </div>
-            </div>
-        </form>
+        <div class="mb-6">
+            <input type="text" 
+                   id="searchBox" 
+                   class="input-custom w-full px-6 py-4 text-lg border-2 border-corporate-blue rounded-xl focus:outline-none focus:ring-4 focus:ring-corporate-skyblue focus:border-transparent transition-all shadow-md"
+                   placeholder="🔍 Escribe el nombre o código...">
+        </div>
 
-        <div id="result" class="mb-3"></div>
+        <div id="result" class="mb-6"></div>
 
         <!-- Controles -->
-        <div class="row mb-3">
-            <div class="col-12 col-md-4 mb-2 mb-md-0">
-                <div class="form-group mb-0">
-                    <label for="listType"><strong>Tipo de lista:</strong></label>
-                    <select id="listType" class="form-control">
-                        <option value="pie">👟 Personas a pie</option>
-                        <option value="carro">🚗 Personas en carro</option>
-                    </select>
-                </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div>
+                <label for="listType" class="block text-lg font-semibold mb-2 text-corporate-blue">
+                    Tipo de lista:
+                </label>
+                <select id="listType" 
+                        class="input-custom w-full px-4 py-3 border-2 border-corporate-blue rounded-xl focus:outline-none focus:ring-4 focus:ring-corporate-blue transition-all">
+                    <option value="pie">👟 Personas a pie</option>
+                    <option value="carro">🚗 Personas en carro</option>
+                </select>
             </div>
-            <div class="col-12 col-md-8 d-flex align-items-end justify-content-md-end mt-2 mt-md-0">
-                <button type="button" class="btn btn-primary mr-2" onclick="copiarLista()">📄 Copiar Lista</button>
-                <button type="button" class="btn btn-danger" onclick="limpiarLista()">🗑 Limpiar Lista</button>
+            <div class="flex items-end gap-2">
+                <button type="button" 
+                        class="flex-1 bg-corporate-blue hover:bg-blue-700 text-white px-4 py-3 rounded-xl font-medium shadow-sm hover:shadow-md transition-all"
+                        onclick="copiarLista()">
+                    📄 Copiar Lista
+                </button>
+                <button type="button" 
+                        class="flex-1 bg-corporate-red hover:bg-red-700 text-white px-4 py-3 rounded-xl font-medium shadow-sm hover:shadow-md transition-all"
+                        onclick="limpiarLista()">
+                    🗑 Limpiar Lista
+                </button>
             </div>
         </div>
 
         <!-- Agregar manual -->
-        <div class="input-group mb-3">
-            <input type="text" id="newName" class="form-control" placeholder="Agregar nombre manualmente">
-            <div class="input-group-append">
-                <button class="btn btn-success" type="button" onclick="agregarManual()">➕ Agregar</button>
-            </div>
+        <div class="flex gap-2 mb-6">
+            <input type="text" 
+                   id="newName" 
+                   class="input-custom flex-1 px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-corporate-skyblue focus:border-transparent transition-all"
+                   placeholder="Agregar nombre manualmente">
+            <button class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl font-medium shadow-sm hover:shadow-md transition-all whitespace-nowrap"
+                    type="button" 
+                    onclick="agregarManual()">
+                ➕ Agregar
+            </button>
         </div>
 
         <!-- Lista -->
-        <div class="card shadow-sm mb-4">
-            <div class="card-header bg-secondary text-white text-center">
-                <h2 id="listaTitle" class="mb-0 h2-custom">Lista de Personas a pie</h2>
+        <div class="card-custom card-shadow bg-white rounded-xl overflow-hidden">
+            <div class="bg-corporate-blue text-white px-6 py-4 border-b border-blue-800">
+                <h2 id="listaTitle" class="text-xl md:text-2xl font-bold text-center">
+                    👟 Lista de Personas a pie
+                </h2>
             </div>
-            <ul id="lista" class="list-group list-group-flush"></ul>
+            <ul id="lista" class="divide-y divide-gray-200"></ul>
         </div>
 
         <!-- Área oculta para copiar -->
         <textarea id="copyArea"></textarea>
 
         <!-- Notificación -->
-        <div id="notification" class="notification">✅ Lista copiada al portapapeles</div>
-    </div>
+        <div id="notification" class="notification">
+            ✅ Lista copiada al portapapeles
+        </div>
+    </main>
 
-    <div class="theme-toggle">
-        <button id="toggleTheme" class="btn btn-outline-secondary" title="Cambiar tema">
-            <span id="themeIcon" class="fas fa-moon"></span>
-        </button>
-    </div>
+    <!-- Theme Toggle Button -->
+    <button id="toggleTheme" 
+            class="theme-toggle-btn bg-corporate-blue hover:bg-blue-700 text-white w-12 h-12 rounded-full shadow-lg hover:shadow-xl transition-all flex items-center justify-center"
+            title="Cambiar tema">
+        <svg id="themeIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+    </button>
 
     <!-- Footer -->
-    <footer class="footer mt-auto">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 mb-3 mb-md-0">
-                    <h5 class="text-uppercase">Gestión Estudiantes</h5>
-                    <p class="mb-1">Sistema profesional para la gestión y control de listas de salida de estudiantes.
+    <footer class="footer-custom text-white mt-12">
+        <div class="max-w-7xl mx-auto px-4 py-10">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h5 class="text-lg font-bold mb-3 text-white">Gestión Estudiantes</h5>
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        Sistema profesional para la gestión y control de listas de salida de estudiantes.
                     </p>
                 </div>
-                <div class="col-md-4 mb-3 mb-md-0">
-                    <h6 class="text-uppercase">Enlaces útiles</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="index.html">Inicio</a></li>
-                        <li><a href="login.html">Admin</a></li>
-                        <li><a href="#" onclick="window.scrollTo(0,0)">Ir arriba</a></li>
+                <div>
+                    <h6 class="text-lg font-semibold mb-3 text-white">Enlaces útiles</h6>
+                    <ul class="space-y-2 text-sm">
+                        <li>
+                            <a href="index.html" class="text-gray-300 hover:text-corporate-skyblue transition-colors">
+                                Inicio
+                            </a>
+                        </li>
+                        <li>
+                            <a href="login.html" class="text-gray-300 hover:text-corporate-skyblue transition-colors">
+                                Admin
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" onclick="window.scrollTo(0,0)" class="text-gray-300 hover:text-corporate-skyblue transition-colors">
+                                Ir arriba
+                            </a>
+                        </li>
                     </ul>
                 </div>
-                <div class="col-md-4 text-md-right">
-                    <h6 class="text-uppercase">Contacto</h6>
-                    <p class="mb-1">Desarrollado por <a
-                            href="https://www.instagram.com/yeison02._.ssj?igsh=cTBqc2I4YXpwbXFj" target="_blank">Yeison
-                            Prada</a></p>
-                    <p class="mb-0">&copy; <span id="year"></span> Todos los derechos reservados.</p>
+                <div class="md:text-right">
+                    <h6 class="text-lg font-semibold mb-3 text-white">Contacto</h6>
+                    <p class="text-gray-300 mb-2 text-sm">
+                        Desarrollado por 
+                        <a href="https://www.instagram.com/yeison02._.ssj?igsh=cTBqc2I4YXpwbXFj" 
+                           target="_blank" 
+                           class="text-corporate-skyblue hover:text-blue-300 transition-colors font-semibold">
+                            Yeison Prada
+                        </a>
+                    </p>
+                    <p class="text-gray-400 text-sm">
+                        &copy; <span id="year"></span> Todos los derechos reservados.
+                    </p>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- Bootstrap 4 JS, Popper.js, and jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/4b8b0b6b7b.js" crossorigin="anonymous"></script>
 
     <script>
@@ -142,28 +319,35 @@
             return "¿Seguro que quieres salir o refrescar la página? Se perderá la lista.";
         };
 
+        // Mobile menu toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
         // Modo oscuro
         const toggleThemeBtn = document.getElementById('toggleTheme');
         const themeIcon = document.getElementById('themeIcon');
+        
         function setTheme(dark) {
             if (dark) {
                 document.body.classList.add('theme-dark');
-                themeIcon.classList.remove('fa-moon');
-                themeIcon.classList.add('fa-sun');
+                themeIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>';
                 toggleThemeBtn.setAttribute('title', 'Modo claro');
                 localStorage.setItem('theme', 'dark');
             } else {
                 document.body.classList.remove('theme-dark');
-                themeIcon.classList.remove('fa-sun');
-                themeIcon.classList.add('fa-moon');
+                themeIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>';
                 toggleThemeBtn.setAttribute('title', 'Modo oscuro');
                 localStorage.setItem('theme', 'light');
             }
         }
+        
         toggleThemeBtn.addEventListener('click', function () {
             const isDark = document.body.classList.contains('theme-dark');
             setTheme(!isDark);
         });
+        
         if (localStorage.getItem('theme') === 'dark') {
             setTheme(true);
         }
@@ -173,7 +357,7 @@
 
         async function cargarEstudiantes() {
             try {
-                const res = await fetch("/api/codigos"); // ✅ endpoint corregido
+                const res = await fetch("/api/codigos");
                 estudiantes = await res.json();
                 console.log("✅ Estudiantes cargados desde Supabase:", estudiantes);
             } catch (error) {
@@ -207,6 +391,7 @@
             }
             actualizarLista();
         });
+        
 
         // --- Buscar estudiante ---
         searchBox.addEventListener("input", () => {
@@ -216,22 +401,25 @@
             if (termino.length > 0) {
                 const encontrados = estudiantes.filter(e =>
                     e.Nombre.toLowerCase().includes(termino) ||
-                    e.Codigo.toString().includes(termino) // Codigo es numérico en la BD
+                    e.Codigo.toString().includes(termino)
                 );
 
                 if (encontrados.length > 0) {
-                    let html = '<div class="list-group">';
+                    let html = '<div class="space-y-2">';
                     encontrados.forEach(est => {
                         html += `
-                        <label class="list-group-item d-flex align-items-center">
-                            <input type="checkbox" class="mr-2" id="est-${est.Codigo}" onchange="agregarALista('${est.Codigo}')">
-                            <span><strong>${est.Nombre}</strong> - Código: ${est.Codigo} - Docente: ${est.Docente}</span>
+                        <label class="list-item-custom flex items-center p-4 bg-white border-2 border-gray-200 rounded-xl cursor-pointer hover:border-corporate-blue hover:bg-blue-50 transition-all">
+                            <input type="checkbox" class="w-5 h-5 text-corporate-blue rounded focus:ring-corporate-blue mr-3" id="est-${est.Codigo}" onchange="agregarALista('${est.Codigo}')">
+                            <span class="flex-1">
+                                <strong class="text-corporate-blue">${est.Nombre}</strong>
+                                <span class="text-gray-600"> - Código: ${est.Codigo} - Docente: ${est.Docente}</span>
+                            </span>
                         </label>`;
                     });
                     html += '</div>';
                     resultDiv.innerHTML = html;
                 } else {
-                    resultDiv.innerHTML = "<p>No se encontraron estudiantes</p>";
+                    resultDiv.innerHTML = '<p class="text-center text-gray-500 py-4">No se encontraron estudiantes</p>';
                 }
             }
         });
@@ -261,30 +449,31 @@
             }
         }
 
-        // ✅ Mostrar Nombre + Docente (o solo nombre si es manual)
         function actualizarLista() {
             listaUl.innerHTML = "";
             const listaFiltrada = listaSeleccion.filter(item => item.tipo === currentListType);
 
             if (listaFiltrada.length === 0) {
-                listaUl.innerHTML = '<li class="list-group-item text-center text-muted">No hay estudiantes en esta lista</li>';
+                listaUl.innerHTML = '<li class="list-item-custom px-6 py-8 text-center text-gray-400 bg-gray-50">No hay estudiantes en esta lista</li>';
                 return;
             }
 
             listaFiltrada.forEach((est, idx) => {
                 const li = document.createElement("li");
-                li.className = "list-group-item d-flex justify-content-between align-items-center";
+                li.className = "list-item-custom flex justify-between items-center px-6 py-4 hover:bg-gray-50 transition-colors";
 
-                // Solo mostrar nombre si es manual, de lo contrario nombre + docente
-                li.textContent = est.manual
+                const textSpan = document.createElement("span");
+                textSpan.className = "flex-1 text-gray-800";
+                textSpan.textContent = est.manual
                     ? `${idx + 1}. ${est.Nombre}`
                     : `${idx + 1}. ${est.Nombre} - Docente: ${est.Docente}`;
 
                 const removeBtn = document.createElement("button");
                 removeBtn.innerHTML = "❌";
-                removeBtn.className = "btn btn-sm btn-outline-danger ml-2";
+                removeBtn.className = "ml-4 px-3 py-1 text-sm text-white bg-corporate-red hover:bg-red-700 rounded-xl transition-all";
                 removeBtn.onclick = () => eliminarDeLista(est.Codigo, est.manual);
 
+                li.appendChild(textSpan);
                 li.appendChild(removeBtn);
                 listaUl.appendChild(li);
             });
@@ -299,7 +488,6 @@
             actualizarLista();
         }
 
-        // ✅ Copiar lista con Nombre + Docente (o solo nombre si es manual)
         function copiarLista() {
             const listaFiltrada = listaSeleccion.filter(item => item.tipo === currentListType);
             const tipoLista = currentListType === "pie" ? "*PERSONAS A PIE 👟*" : "*PERSONAS EN CARRO 🚗*";
