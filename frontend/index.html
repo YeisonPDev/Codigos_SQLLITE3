@@ -73,8 +73,9 @@
 
         .notification {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 1rem;
+            right: 1rem;
+            left: 1rem;
             background: #1E3A8A;
             color: white;
             padding: 1rem 1.5rem;
@@ -83,6 +84,17 @@
             display: none;
             z-index: 9999;
             animation: slideIn 0.3s ease-out;
+            text-align: center;
+            font-size: 0.875rem;
+        }
+
+        @media (min-width: 640px) {
+            .notification {
+                top: 20px;
+                right: 20px;
+                left: auto;
+                font-size: 1rem;
+            }
         }
 
         @keyframes slideIn {
@@ -116,9 +128,16 @@
 
         .theme-toggle-btn {
             position: fixed;
-            bottom: 2rem;
-            right: 2rem;
+            bottom: 1rem;
+            right: 1rem;
             z-index: 1000;
+        }
+
+        @media (min-width: 640px) {
+            .theme-toggle-btn {
+                bottom: 2rem;
+                right: 2rem;
+            }
         }
 
         .nav-shadow {
@@ -133,8 +152,8 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center">
-                    <img src="img/logo.png" alt="logo" class="w-10 h-10 rounded-full mr-3 border-2 border-corporate-blue">
-                    <a href="index.html" class="text-corporate-blue text-xl font-bold hover:text-corporate-skyblue transition-colors">
+                    <img src="img/logo.png" alt="logo" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full mr-2 sm:mr-3 border-2 border-corporate-blue">
+                    <a href="index.html" class="text-corporate-blue text-lg sm:text-xl font-bold hover:text-corporate-skyblue transition-colors">
                         Gestión Estudiantes
                     </a>
                 </div>
@@ -179,55 +198,58 @@
     </nav>
 
     <!-- Main Content -->
-    <main class="flex-grow container mx-auto px-4 py-8 max-w-6xl">
+    <main class="flex-grow container mx-auto px-3 sm:px-4 py-4 sm:py-6 md:py-8 max-w-6xl">
         <!-- Título principal -->
-        <h1 class="text-3xl md:text-4xl font-bold text-center mb-8 text-corporate-blue">
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-6 md:mb-8 text-corporate-blue px-2">
             Buscar Estudiante
         </h1>
 
         <!-- Buscador -->
-        <div class="mb-6">
+        <div class="mb-4 md:mb-6">
             <input type="text" 
                    id="searchBox" 
-                   class="input-custom w-full px-6 py-4 text-lg border-2 border-corporate-blue rounded-xl focus:outline-none focus:ring-4 focus:ring-corporate-skyblue focus:border-transparent transition-all shadow-md"
+                   class="input-custom w-full px-4 sm:px-6 py-3 sm:py-4 text-base sm:text-lg border-2 border-corporate-blue rounded-xl focus:outline-none focus:ring-4 focus:ring-corporate-skyblue focus:border-transparent transition-all shadow-md"
                    placeholder="🔍 Escribe el nombre o código...">
         </div>
 
         <div id="result" class="mb-6"></div>
 
         <!-- Controles -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <div class="space-y-4 mb-4 md:mb-6">
+            <!-- Selector de tipo de lista -->
             <div>
-                <label for="listType" class="block text-lg font-semibold mb-2 text-corporate-blue">
+                <label for="listType" class="block text-base sm:text-lg font-semibold mb-2 text-corporate-blue">
                     Tipo de lista:
                 </label>
                 <select id="listType" 
-                        class="input-custom w-full px-4 py-3 border-2 border-corporate-blue rounded-xl focus:outline-none focus:ring-4 focus:ring-corporate-blue transition-all">
+                        class="input-custom w-full px-4 py-3 border-2 border-corporate-blue rounded-xl focus:outline-none focus:ring-4 focus:ring-corporate-blue transition-all text-base">
                     <option value="pie">👟 Personas a pie</option>
                     <option value="carro">🚗 Personas en carro</option>
                 </select>
             </div>
-            <div class="flex items-end gap-2">
+            
+            <!-- Botones de acción -->
+            <div class="grid grid-cols-2 gap-2 sm:gap-3">
                 <button type="button" 
-                        class="flex-1 bg-corporate-blue hover:bg-blue-700 text-white px-4 py-3 rounded-xl font-medium shadow-sm hover:shadow-md transition-all"
+                        class="bg-corporate-blue hover:bg-blue-700 text-white px-3 sm:px-4 py-3 rounded-xl font-medium shadow-sm hover:shadow-md transition-all text-sm sm:text-base"
                         onclick="copiarLista()">
-                    📄 Copiar Lista
+                    📄 Copiar
                 </button>
                 <button type="button" 
-                        class="flex-1 bg-corporate-red hover:bg-red-700 text-white px-4 py-3 rounded-xl font-medium shadow-sm hover:shadow-md transition-all"
+                        class="bg-corporate-red hover:bg-red-700 text-white px-3 sm:px-4 py-3 rounded-xl font-medium shadow-sm hover:shadow-md transition-all text-sm sm:text-base"
                         onclick="limpiarLista()">
-                    🗑 Limpiar Lista
+                    🗑 Limpiar
                 </button>
             </div>
         </div>
 
         <!-- Agregar manual -->
-        <div class="flex gap-2 mb-6">
+        <div class="flex flex-col sm:flex-row gap-2 mb-4 md:mb-6">
             <input type="text" 
                    id="newName" 
-                   class="input-custom flex-1 px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-corporate-skyblue focus:border-transparent transition-all"
+                   class="input-custom flex-1 px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-corporate-skyblue focus:border-transparent transition-all text-base"
                    placeholder="Agregar nombre manualmente">
-            <button class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl font-medium shadow-sm hover:shadow-md transition-all whitespace-nowrap"
+            <button class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl font-medium shadow-sm hover:shadow-md transition-all whitespace-nowrap text-base"
                     type="button" 
                     onclick="agregarManual()">
                 ➕ Agregar
@@ -236,8 +258,8 @@
 
         <!-- Lista -->
         <div class="card-custom card-shadow bg-white rounded-xl overflow-hidden">
-            <div class="bg-corporate-blue text-white px-6 py-4 border-b border-blue-800">
-                <h2 id="listaTitle" class="text-xl md:text-2xl font-bold text-center">
+            <div class="bg-corporate-blue text-white px-4 sm:px-6 py-3 sm:py-4 border-b border-blue-800">
+                <h2 id="listaTitle" class="text-lg sm:text-xl md:text-2xl font-bold text-center">
                     👟 Lista de Personas a pie
                 </h2>
             </div>
@@ -263,18 +285,18 @@
     </button>
 
     <!-- Footer -->
-    <footer class="footer-custom text-white mt-12">
-        <div class="max-w-7xl mx-auto px-4 py-10">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <footer class="footer-custom text-white mt-8 sm:mt-12">
+        <div class="max-w-7xl mx-auto px-4 py-6 sm:py-8 md:py-10">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
                 <div>
-                    <h5 class="text-lg font-bold mb-3 text-white">Gestión Estudiantes</h5>
-                    <p class="text-gray-300 text-sm leading-relaxed">
+                    <h5 class="text-base sm:text-lg font-bold mb-2 sm:mb-3 text-white">Gestión Estudiantes</h5>
+                    <p class="text-gray-300 text-xs sm:text-sm leading-relaxed">
                         Sistema profesional para la gestión y control de listas de salida de estudiantes.
                     </p>
                 </div>
                 <div>
-                    <h6 class="text-lg font-semibold mb-3 text-white">Enlaces útiles</h6>
-                    <ul class="space-y-2 text-sm">
+                    <h6 class="text-base sm:text-lg font-semibold mb-2 sm:mb-3 text-white">Enlaces útiles</h6>
+                    <ul class="space-y-1.5 sm:space-y-2 text-xs sm:text-sm">
                         <li>
                             <a href="index.html" class="text-gray-300 hover:text-corporate-skyblue transition-colors">
                                 Inicio
@@ -293,8 +315,8 @@
                     </ul>
                 </div>
                 <div class="md:text-right">
-                    <h6 class="text-lg font-semibold mb-3 text-white">Contacto</h6>
-                    <p class="text-gray-300 mb-2 text-sm">
+                    <h6 class="text-base sm:text-lg font-semibold mb-2 sm:mb-3 text-white">Contacto</h6>
+                    <p class="text-gray-300 mb-2 text-xs sm:text-sm">
                         Desarrollado por 
                         <a href="https://www.instagram.com/yeison02._.ssj?igsh=cTBqc2I4YXpwbXFj" 
                            target="_blank" 
@@ -302,7 +324,7 @@
                             Yeison Prada
                         </a>
                     </p>
-                    <p class="text-gray-400 text-sm">
+                    <p class="text-gray-400 text-xs sm:text-sm">
                         &copy; <span id="year"></span> Todos los derechos reservados.
                     </p>
                 </div>
@@ -391,7 +413,6 @@
             }
             actualizarLista();
         });
-        
 
         // --- Buscar estudiante ---
         searchBox.addEventListener("input", () => {
@@ -408,18 +429,19 @@
                     let html = '<div class="space-y-2">';
                     encontrados.forEach(est => {
                         html += `
-                        <label class="list-item-custom flex items-center p-4 bg-white border-2 border-gray-200 rounded-xl cursor-pointer hover:border-corporate-blue hover:bg-blue-50 transition-all">
-                            <input type="checkbox" class="w-5 h-5 text-corporate-blue rounded focus:ring-corporate-blue mr-3" id="est-${est.Codigo}" onchange="agregarALista('${est.Codigo}')">
-                            <span class="flex-1">
-                                <strong class="text-corporate-blue">${est.Nombre}</strong>
-                                <span class="text-gray-600"> - Código: ${est.Codigo} - Docente: ${est.Docente}</span>
+                        <label class="list-item-custom flex items-start sm:items-center p-3 sm:p-4 bg-white border-2 border-gray-200 rounded-xl cursor-pointer hover:border-corporate-blue hover:bg-blue-50 transition-all">
+                            <input type="checkbox" class="w-5 h-5 text-corporate-blue rounded focus:ring-corporate-blue mr-3 mt-0.5 sm:mt-0 flex-shrink-0" id="est-${est.Codigo}" onchange="agregarALista('${est.Codigo}')">
+                            <span class="flex-1 text-sm sm:text-base">
+                                <strong class="text-corporate-blue block sm:inline">${est.Nombre}</strong>
+                                <span class="text-gray-600 text-xs sm:text-sm block sm:inline"> - Código: ${est.Codigo}</span>
+                                <span class="text-gray-600 text-xs sm:text-sm block sm:inline"> - Docente: ${est.Docente}</span>
                             </span>
                         </label>`;
                     });
                     html += '</div>';
                     resultDiv.innerHTML = html;
                 } else {
-                    resultDiv.innerHTML = '<p class="text-center text-gray-500 py-4">No se encontraron estudiantes</p>';
+                    resultDiv.innerHTML = '<p class="text-center text-gray-500 py-4 text-sm sm:text-base">No se encontraron estudiantes</p>';
                 }
             }
         });
@@ -454,23 +476,23 @@
             const listaFiltrada = listaSeleccion.filter(item => item.tipo === currentListType);
 
             if (listaFiltrada.length === 0) {
-                listaUl.innerHTML = '<li class="list-item-custom px-6 py-8 text-center text-gray-400 bg-gray-50">No hay estudiantes en esta lista</li>';
+                listaUl.innerHTML = '<li class="list-item-custom px-4 sm:px-6 py-6 sm:py-8 text-center text-gray-400 bg-gray-50 text-sm sm:text-base">No hay estudiantes en esta lista</li>';
                 return;
             }
 
             listaFiltrada.forEach((est, idx) => {
                 const li = document.createElement("li");
-                li.className = "list-item-custom flex justify-between items-center px-6 py-4 hover:bg-gray-50 transition-colors";
+                li.className = "list-item-custom flex flex-col sm:flex-row justify-between items-start sm:items-center px-4 sm:px-6 py-3 sm:py-4 hover:bg-gray-50 transition-colors gap-2 sm:gap-0";
 
                 const textSpan = document.createElement("span");
-                textSpan.className = "flex-1 text-gray-800";
+                textSpan.className = "flex-1 text-gray-800 text-sm sm:text-base break-words";
                 textSpan.textContent = est.manual
                     ? `${idx + 1}. ${est.Nombre}`
                     : `${idx + 1}. ${est.Nombre} - Docente: ${est.Docente}`;
 
                 const removeBtn = document.createElement("button");
                 removeBtn.innerHTML = "❌";
-                removeBtn.className = "ml-4 px-3 py-1 text-sm text-white bg-corporate-red hover:bg-red-700 rounded-xl transition-all";
+                removeBtn.className = "sm:ml-4 px-3 py-1.5 text-xs sm:text-sm text-white bg-corporate-red hover:bg-red-700 rounded-xl transition-all self-end sm:self-auto";
                 removeBtn.onclick = () => eliminarDeLista(est.Codigo, est.manual);
 
                 li.appendChild(textSpan);
