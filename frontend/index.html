@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Salida</title>
-    <link rel="icon" href="img/logo.png" type="image/x-icon">
+    <link rel="icon" href="img/logo.png" type="image/x-icon" >
 
     <!-- Google Fonts - Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -143,6 +143,29 @@
         .nav-shadow {
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
         }
+
+        @keyframes float-blue {
+            0%, 100% {
+                transform: translateY(0px) scale(1);
+                filter: brightness(1) hue-rotate(0deg);
+            }
+            25% {
+                transform: translateY(-10px) scale(1.05);
+                filter: brightness(1.1) hue-rotate(5deg);
+            }
+            50% {
+                transform: translateY(-5px) scale(1.02);
+                filter: brightness(1.2) hue-rotate(10deg);
+            }
+            75% {
+                transform: translateY(-15px) scale(1.03);
+                filter: brightness(1.1) hue-rotate(5deg);
+            }
+        }
+
+        .animate-float-blue {
+            animation: float-blue 3s ease-in-out infinite;
+        }
     </style>
 </head>
 
@@ -200,7 +223,11 @@
     <!-- Main Content -->
     <main class="flex-grow container mx-auto px-3 sm:px-4 py-4 sm:py-6 md:py-8 max-w-6xl">
         <!-- Título principal -->
+           <div class="flex justify-center mb-6 md:mb-8">
+            <img src="img/user.png" alt="logusers" class="inline-block w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full border-4 border-corporate-blue bg-blue-100 p-2 animate-float-blue shadow-lg shadow-corporate-blue/30">
+        </div>
         <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-6 md:mb-8 text-corporate-blue px-2">
+          
             Buscar Estudiante
         </h1>
 
