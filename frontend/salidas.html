@@ -583,10 +583,6 @@
         const SHEET_TAB = 'Respuestas de formulario 1';
         const API_KEY = 'AIzaSyAIi6RJGCHX8EK_yPpHwJyE_UAh8AMdfoo';
 
-        // Si corre en Express (puerto 3000 o producción) usa el proxy seguro.
-        // En Live Server u otros entornos llama a Google Sheets directamente.
-        const USE_PROXY = (window.location.port === '3000' || window.location.port === '');
-
         /* Column indices (0-based) matching the form structure */
         const COL = {
             fecha: 0,   // Marca temporal
@@ -670,35 +666,20 @@
             hideError();
 
             try {
-                let headerRow_tmp = [];
-                let allRows_tmp = [];
-
-                if (USE_PROXY) {
-                    // Ruta segura: el servidor Express oculta la API key
-                    const res = await fetch('/api/salidas');
-                    if (!res.ok) {
-                        const err = await res.json().catch(() => ({}));
-                        throw new Error(err.error || `HTTP ${res.status}`);
-                    }
-                    const json = await res.json();
-                    headerRow_tmp = json.headers || [];
-                    allRows_tmp = json.rows || [];
-                } else {
-                    // Live Server / apertura directa: llama Google Sheets directamente
-                    const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(SHEET_TAB)}?key=${API_KEY}`;
-                    const res = await fetch(url);
-                    if (!res.ok) {
-                        const err = await res.json().catch(() => ({}));
-                        throw new Error(err?.error?.message || `HTTP ${res.status}`);
-                    }
-                    const json = await res.json();
-                    const values = json.values || [];
-                    headerRow_tmp = values[0] || [];
-                    allRows_tmp = values.slice(1) || [];
+                // Llamada directa a Google Sheets (hoja pública)
+                const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(SHEET_TAB)}?key=${API_KEY}`;
+                const res = await fetch(url);
+                if (!res.ok) {
+                    const errBody = await res.json().catch(() => ({}));
+                    const msg = errBody?.error?.message || `HTTP ${res.status}`;
+                    if (res.status === 403) throw new Error('Acceso denegado (403). Abre Google Sheets → Compartir → "Cualquiera con el enlace" → Lector.');
+                    if (res.status === 400) throw new Error('API Key inválida o Sheet ID incorrecto (400).');
+                    throw new Error(msg);
                 }
-
-                headerRow = headerRow_tmp;
-                allRows = allRows_tmp;
+                const json = await res.json();
+                const values = json.values || [];
+                headerRow = values[0] || [];
+                allRows = values.slice(1) || [];
 
                 // Populate sede select
                 poblarSedes();
