@@ -5,12 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Salida</title>
-    <link rel="icon" href="img/logo.png" type="image/x-icon" >
+    <link rel="icon" href="img/logo.png" type="image/x-icon">
 
     <!-- Google Fonts - Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -102,6 +103,7 @@
                 transform: translateX(400px);
                 opacity: 0;
             }
+
             to {
                 transform: translateX(0);
                 opacity: 1;
@@ -145,18 +147,23 @@
         }
 
         @keyframes float-blue {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: translateY(0px) scale(1);
                 filter: brightness(1) hue-rotate(0deg);
             }
+
             25% {
                 transform: translateY(-10px) scale(1.05);
                 filter: brightness(1.1) hue-rotate(5deg);
             }
+
             50% {
                 transform: translateY(-5px) scale(1.02);
                 filter: brightness(1.2) hue-rotate(10deg);
             }
+
             75% {
                 transform: translateY(-15px) scale(1.03);
                 filter: brightness(1.1) hue-rotate(5deg);
@@ -170,71 +177,74 @@
 </head>
 
 <body class="bg-gray-50 min-h-screen flex flex-col">
-    <!-- Navbar -->
+    <!-- ══════════════ NAVBAR ══════════════ -->
     <nav class="nav-custom bg-white border-b border-gray-200 nav-shadow">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center">
-                    <img src="img/logo.png" alt="logo" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full mr-2 sm:mr-3 border-2 border-corporate-blue">
-                    <a href="index.html" class="text-corporate-blue text-lg sm:text-xl font-bold hover:text-corporate-skyblue transition-colors">
+                    <img src="img/logo.png" alt="logo"
+                        class="w-10 h-10 rounded-full mr-3 border-2 border-corporate-blue">
+                    <a href="index.html"
+                        class="text-corporate-blue text-xl font-bold hover:text-corporate-skyblue transition-colors">
                         Gestión Estudiantes
                     </a>
                 </div>
-                
+
+                <!-- Mobile menu btn -->
                 <button id="mobileMenuBtn" class="md:hidden text-corporate-blue focus:outline-none">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
                 </button>
 
+                <!-- Desktop menu -->
                 <div class="hidden md:flex items-center space-x-1">
-                    <a href="index.html" class="text-gray-700 hover:text-corporate-blue hover:bg-gray-50 px-4 py-2 rounded-md transition-all font-medium">
-                        Inicio
-                    </a>
-                    <a href="https://sistemas-gradosplay.onrender.com/" class="text-gray-700 hover:text-corporate-blue hover:bg-gray-50 px-4 py-2 rounded-md transition-all font-medium">
-                        Grados
-                    </a>
-                    <a href="login.html" id="btnLoginNav" class="text-gray-700 hover:text-corporate-blue hover:bg-gray-50 px-4 py-2 rounded-md transition-all font-medium">
-                        Admin
-                    </a>
-                    <a href="#" id="btnLogoutNav" onclick="logout()" class="hidden text-corporate-red hover:bg-red-50 px-4 py-2 rounded-md transition-all font-medium">
-                        Salir
-                    </a>
+                    <a href="index.html"
+                        class="text-corporate-blue bg-blue-50 px-4 py-2 rounded-md font-semibold border-b-2 border-corporate-blue">Inicio</a>
+                    <a href="grados.html"
+                        class="text-gray-700 hover:text-corporate-blue hover:bg-gray-50 px-4 py-2 rounded-md transition-all font-medium">Grados</a>
+                    <a href="salidas.html"
+                        class="text-gray-700 hover:text-corporate-blue hover:bg-gray-50 px-4 py-2 rounded-md transition-all font-medium">Salidas</a>
+                    <a href="login.html" id="btnLoginNav"
+                        class="text-gray-700 hover:text-corporate-blue hover:bg-gray-50 px-4 py-2 rounded-md transition-all font-medium">Admin</a>
+                    <a href="#" id="btnLogoutNav" onclick="logout()"
+                        class="hidden text-corporate-red hover:bg-red-50 px-4 py-2 rounded-md transition-all font-medium">Salir</a>
                 </div>
             </div>
 
-         
+            <!-- Mobile menu -->
             <div id="mobileMenu" class="hidden md:hidden pb-3 border-t border-gray-100 mt-2 pt-2">
-                <a href="index.html" class="block text-gray-700 hover:text-corporate-blue hover:bg-gray-50 px-3 py-2 rounded-md transition-all font-medium">
-                    Inicio
-                </a>
-                <a href="grados.html" class="block text-gray-700 hover:text-corporate-blue hover:bg-gray-50 px-3 py-2 rounded-md transition-all font-medium">
-                    Grados
-                </a>
-                <a href="login.html" class="block text-gray-700 hover:text-corporate-blue hover:bg-gray-50 px-3 py-2 rounded-md transition-all font-medium">
-                    Admin
-                </a>
+                <a href="index.html"
+                    class="block text-corporate-blue bg-blue-50 px-3 py-2 rounded-md font-semibold">Inicio</a>
+                <a href="grados.html"
+                    class="block text-gray-700 hover:text-corporate-blue hover:bg-gray-50 px-3 py-2 rounded-md font-medium">Grados</a>
+                <a href="salidas.html"
+                    class="block text-gray-700 hover:text-corporate-blue hover:bg-gray-50 px-3 py-2 rounded-md font-medium">Salidas</a>
+                <a href="login.html"
+                    class="block text-gray-700 hover:text-corporate-blue hover:bg-gray-50 px-3 py-2 rounded-md font-medium">Admin</a>
             </div>
         </div>
     </nav>
 
+
     <!-- Main Content -->
     <main class="flex-grow container mx-auto px-3 sm:px-4 py-4 sm:py-6 md:py-8 max-w-6xl">
         <!-- Título principal -->
-           <div class="flex justify-center mb-6 md:mb-8">
-            <img src="img/user.png" alt="logusers" class="inline-block w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full border-4 border-corporate-blue bg-blue-100 p-2 animate-float-blue shadow-lg shadow-corporate-blue/30">
+        <div class="flex justify-center mb-6 md:mb-8">
+            <img src="img/user.png" alt="logusers"
+                class="inline-block w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full border-4 border-corporate-blue bg-blue-100 p-2 animate-float-blue shadow-lg shadow-corporate-blue/30">
         </div>
         <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-6 md:mb-8 text-corporate-blue px-2">
-          
+
             Buscar Estudiante
         </h1>
 
         <!-- Buscador -->
         <div class="mb-4 md:mb-6">
-            <input type="text" 
-                   id="searchBox" 
-                   class="input-custom w-full px-4 sm:px-6 py-3 sm:py-4 text-base sm:text-lg border-2 border-corporate-blue rounded-xl focus:outline-none focus:ring-4 focus:ring-corporate-skyblue focus:border-transparent transition-all shadow-md"
-                   placeholder="🔍 Escribe el nombre o código...">
+            <input type="text" id="searchBox"
+                class="input-custom w-full px-4 sm:px-6 py-3 sm:py-4 text-base sm:text-lg border-2 border-corporate-blue rounded-xl focus:outline-none focus:ring-4 focus:ring-corporate-skyblue focus:border-transparent transition-all shadow-md"
+                placeholder="🔍 Escribe el nombre o código...">
         </div>
 
         <div id="result" class="mb-6"></div>
@@ -246,23 +256,23 @@
                 <label for="listType" class="block text-base sm:text-lg font-semibold mb-2 text-corporate-blue">
                     Tipo de lista:
                 </label>
-                <select id="listType" 
-                        class="input-custom w-full px-4 py-3 border-2 border-corporate-blue rounded-xl focus:outline-none focus:ring-4 focus:ring-corporate-blue transition-all text-base">
+                <select id="listType"
+                    class="input-custom w-full px-4 py-3 border-2 border-corporate-blue rounded-xl focus:outline-none focus:ring-4 focus:ring-corporate-blue transition-all text-base">
                     <option value="pie">👟 Personas a pie</option>
                     <option value="carro">🚗 Personas en carro</option>
                 </select>
             </div>
-            
+
             <!-- Botones de acción -->
             <div class="grid grid-cols-2 gap-2 sm:gap-3">
-                <button type="button" 
-                        class="bg-corporate-blue hover:bg-blue-700 text-white px-3 sm:px-4 py-3 rounded-xl font-medium shadow-sm hover:shadow-md transition-all text-sm sm:text-base"
-                        onclick="copiarLista()">
+                <button type="button"
+                    class="bg-corporate-blue hover:bg-blue-700 text-white px-3 sm:px-4 py-3 rounded-xl font-medium shadow-sm hover:shadow-md transition-all text-sm sm:text-base"
+                    onclick="copiarLista()">
                     📄 Copiar
                 </button>
-                <button type="button" 
-                        class="bg-corporate-red hover:bg-red-700 text-white px-3 sm:px-4 py-3 rounded-xl font-medium shadow-sm hover:shadow-md transition-all text-sm sm:text-base"
-                        onclick="limpiarLista()">
+                <button type="button"
+                    class="bg-corporate-red hover:bg-red-700 text-white px-3 sm:px-4 py-3 rounded-xl font-medium shadow-sm hover:shadow-md transition-all text-sm sm:text-base"
+                    onclick="limpiarLista()">
                     🗑 Limpiar
                 </button>
             </div>
@@ -270,13 +280,12 @@
 
         <!-- Agregar manual -->
         <div class="flex flex-col sm:flex-row gap-2 mb-4 md:mb-6">
-            <input type="text" 
-                   id="newName" 
-                   class="input-custom flex-1 px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-corporate-skyblue focus:border-transparent transition-all text-base"
-                   placeholder="Agregar nombre manualmente">
-            <button class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl font-medium shadow-sm hover:shadow-md transition-all whitespace-nowrap text-base"
-                    type="button" 
-                    onclick="agregarManual()">
+            <input type="text" id="newName"
+                class="input-custom flex-1 px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-corporate-skyblue focus:border-transparent transition-all text-base"
+                placeholder="Agregar nombre manualmente">
+            <button
+                class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl font-medium shadow-sm hover:shadow-md transition-all whitespace-nowrap text-base"
+                type="button" onclick="agregarManual()">
                 ➕ Agregar
             </button>
         </div>
@@ -301,11 +310,12 @@
     </main>
 
     <!-- Theme Toggle Button -->
-    <button id="toggleTheme" 
-            class="theme-toggle-btn bg-corporate-blue hover:bg-blue-700 text-white w-12 h-12 rounded-full shadow-lg hover:shadow-xl transition-all flex items-center justify-center"
-            title="Cambiar tema">
+    <button id="toggleTheme"
+        class="theme-toggle-btn bg-corporate-blue hover:bg-blue-700 text-white w-12 h-12 rounded-full shadow-lg hover:shadow-xl transition-all flex items-center justify-center"
+        title="Cambiar tema">
         <svg id="themeIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
         </svg>
     </button>
 
@@ -333,7 +343,8 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" onclick="window.scrollTo(0,0)" class="text-gray-300 hover:text-corporate-skyblue transition-colors">
+                            <a href="#" onclick="window.scrollTo(0,0)"
+                                class="text-gray-300 hover:text-corporate-skyblue transition-colors">
                                 Ir arriba
                             </a>
                         </li>
@@ -342,10 +353,9 @@
                 <div class="md:text-right">
                     <h6 class="text-base sm:text-lg font-semibold mb-2 sm:mb-3 text-white">Contacto</h6>
                     <p class="text-gray-300 mb-2 text-xs sm:text-sm">
-                        Desarrollado por 
-                        <a href="https://www.instagram.com/yeison02._.ssj?igsh=cTBqc2I4YXpwbXFj" 
-                           target="_blank" 
-                           class="text-corporate-skyblue hover:text-blue-300 transition-colors font-semibold">
+                        Desarrollado por
+                        <a href="https://www.instagram.com/yeison02._.ssj?igsh=cTBqc2I4YXpwbXFj" target="_blank"
+                            class="text-corporate-skyblue hover:text-blue-300 transition-colors font-semibold">
                             Yeison Prada
                         </a>
                     </p>
@@ -361,13 +371,14 @@
     <script src="https://kit.fontawesome.com/4b8b0b6b7b.js" crossorigin="anonymous"></script>
 
     <script>
+        const API_BASE = window.location.port === '5500' ? 'http://localhost:3000' : '';
         // ⚠️ Evitar refrescar la página por error
         window.onbeforeunload = function () {
             return "¿Seguro que quieres salir o refrescar la página? Se perderá la lista.";
         };
 
         // Mobile menu toggle
-        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+        document.getElementById('mobileMenuBtn').addEventListener('click', function () {
             const mobileMenu = document.getElementById('mobileMenu');
             mobileMenu.classList.toggle('hidden');
         });
@@ -375,7 +386,7 @@
         // Modo oscuro
         const toggleThemeBtn = document.getElementById('toggleTheme');
         const themeIcon = document.getElementById('themeIcon');
-        
+
         function setTheme(dark) {
             if (dark) {
                 document.body.classList.add('theme-dark');
@@ -389,12 +400,12 @@
                 localStorage.setItem('theme', 'light');
             }
         }
-        
+
         toggleThemeBtn.addEventListener('click', function () {
             const isDark = document.body.classList.contains('theme-dark');
             setTheme(!isDark);
         });
-        
+
         if (localStorage.getItem('theme') === 'dark') {
             setTheme(true);
         }
@@ -404,7 +415,7 @@
 
         async function cargarEstudiantes() {
             try {
-                const res = await fetch("/api/codigos");
+                const res = await fetch(`${API_BASE}/api/codigos`);
                 estudiantes = await res.json();
                 console.log("✅ Estudiantes cargados desde Supabase:", estudiantes);
             } catch (error) {

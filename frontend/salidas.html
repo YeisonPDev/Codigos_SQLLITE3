@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salidas Anticipadas</title>
+    <link rel="icon" href="img/logo.png" type="image/x-icon">
+
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'corporate-red': '#DC2626',
+                        'corporate-blue': '#1E3A8A',
+                        'corporate-skyblue': '#3B82F6',
+                        'corporate-white': '#FFFFFF',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        /* ── Dark mode ── */
+        .theme-dark {
+            background-color: #1a1a2e;
+            color: #eee;
+        }
+
+        .theme-dark .card-custom {
+            background-color: #16213e;
+            border-color: #0f3460;
+        }
+
+        .theme-dark .input-custom {
+            background-color: #0f3460;
+            color: #eee;
+            border-color: #1a1a2e;
+        }
+
+        .theme-dark .nav-custom {
+            background-color: #0f3460;
+            border-color: #1a1a2e;
+        }
+
+        .theme-dark .footer-custom {
+            background-color: #0f1419;
+        }
+
+        .theme-dark .table-row-custom {
+            background-color: #16213e;
+            border-color: #0f3460;
+            color: #ddd;
+        }
+
+        .theme-dark .table-row-custom:hover {
+            background-color: #1a1a2e;
+        }
+
+        .theme-dark .table-head {
+            background-color: #0f3460;
+            color: #93c5fd;
+        }
+
+        .theme-dark .table-wrapper {
+            background-color: #16213e;
+            border-color: #0f3460;
+        }
+
+        .theme-dark .badge-sede {
+            background-color: #1e3a5f;
+            color: #93c5fd;
+        }
+
+        .theme-dark .modal-bg {
+            background-color: #16213e;
+            border-color: #0f3460;
+            color: #eee;
+        }
+
+        .theme-dark .modal-header {
+            background-color: #0f3460;
+        }
+
+        .theme-dark .modal-section {
+            background-color: #1a1a2e;
+            border-color: #0f3460;
+        }
+
+        .theme-dark .modal-label {
+            color: #93c5fd;
+        }
+
+        .theme-dark .stat-card {
+            background-color: #16213e;
+            border-color: #0f3460;
+        }
+
+        .theme-dark .empty-state {
+            color: #6b7280;
+        }
+
+        /* ── Light defaults ── */
+        .table-row-custom {
+            transition: background 0.15s;
+        }
+
+        .table-row-custom:hover {
+            background-color: #eff6ff;
+        }
+
+        .table-head {
+            background-color: #1E3A8A;
+            color: #fff;
+        }
+
+        .table-wrapper {
+            background-color: #fff;
+            border: 1px solid #e5e7eb;
+        }
+
+        .modal-bg {
+            background-color: #fff;
+        }
+
+        .modal-header {
+            background-color: #1E3A8A;
+        }
+
+        .modal-section {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+        }
+
+        .modal-label {
+            color: #1E3A8A;
+            font-weight: 600;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-card {
+            background-color: #fff;
+            border: 1px solid #e5e7eb;
+        }
+
+        /* ── Shared ── */
+        .footer-custom {
+            background: #111827;
+        }
+
+        .nav-shadow {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .06);
+        }
+
+        .card-shadow {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
+            transition: all .3s;
+        }
+
+        .card-shadow:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .12);
+        }
+
+        .theme-toggle-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+
+        /* ── Spinner ── */
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e5e7eb;
+            border-top-color: #1E3A8A;
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
+            margin: 2rem auto;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ── Modal overlay ── */
+        #detailModal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .55);
+            z-index: 9000;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        #detailModal.open {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        /* ── Notification ── */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #1E3A8A;
+            color: #fff;
+            padding: 1rem 1.5rem;
+            border-radius: .75rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
+            display: none;
+            z-index: 9999;
+            animation: slideIn .3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(300px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* ── Table scroll ── */
+        .table-scroll {
+            overflow-x: auto;
+        }
+
+        table {
+            min-width: 820px;
+        }
+
+        /* ── Badge colors ── */
+        .badge {
+            display: inline-block;
+            padding: .2rem .65rem;
+            border-radius: 9999px;
+            font-size: .7rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .badge-salida {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-medicamento {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-autorizacion {
+            background: #ede9fe;
+            color: #5b21b6;
+        }
+
+        .badge-sede {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .theme-dark .badge-salida {
+            background: #78350f;
+            color: #fde68a;
+        }
+
+        .theme-dark .badge-medicamento {
+            background: #064e3b;
+            color: #6ee7b7;
+        }
+
+        .theme-dark .badge-autorizacion {
+            background: #4c1d95;
+            color: #ddd6fe;
+        }
+
+        /* ── Filter bar ── */
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .75rem;
+            align-items: flex-end;
+        }
+
+        /* ── Responsive table row on mobile ── */
+        @media (max-width: 640px) {
+            .hide-mobile {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+    <!-- ══════════════ NAVBAR ══════════════ -->
+    <nav class="nav-custom bg-white border-b border-gray-200 nav-shadow">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <img src="img/logo.png" alt="logo"
+                        class="w-10 h-10 rounded-full mr-3 border-2 border-corporate-blue">
+                    <a href="index.html"
+                        class="text-corporate-blue text-xl font-bold hover:text-corporate-skyblue transition-colors">
+                        Gestión Estudiantes
+                    </a>
+                </div>
+
+                <!-- Mobile menu btn -->
+                <button id="mobileMenuBtn" class="md:hidden text-corporate-blue focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+
+                <!-- Desktop menu -->
+                <div class="hidden md:flex items-center space-x-1">
+                    <a href="index.html"
+                        class="text-gray-700 hover:text-corporate-blue hover:bg-gray-50 px-4 py-2 rounded-md transition-all font-medium">Inicio</a>
+                    <a href="grados.html"
+                        class="text-gray-700 hover:text-corporate-blue hover:bg-gray-50 px-4 py-2 rounded-md transition-all font-medium">Grados</a>
+                    <a href="salidas.html"
+                        class="text-corporate-blue bg-blue-50 px-4 py-2 rounded-md font-semibold border-b-2 border-corporate-blue">Salidas</a>
+                    <a href="login.html" id="btnLoginNav"
+                        class="text-gray-700 hover:text-corporate-blue hover:bg-gray-50 px-4 py-2 rounded-md transition-all font-medium">Admin</a>
+                    <a href="#" id="btnLogoutNav" onclick="logout()"
+                        class="hidden text-corporate-red hover:bg-red-50 px-4 py-2 rounded-md transition-all font-medium">Salir</a>
+                </div>
+            </div>
+
+            <!-- Mobile menu -->
+            <div id="mobileMenu" class="hidden md:hidden pb-3 border-t border-gray-100 mt-2 pt-2">
+                <a href="index.html"
+                    class="block text-gray-700 hover:text-corporate-blue hover:bg-gray-50 px-3 py-2 rounded-md font-medium">Inicio</a>
+                <a href="grados.html"
+                    class="block text-gray-700 hover:text-corporate-blue hover:bg-gray-50 px-3 py-2 rounded-md font-medium">Grados</a>
+                <a href="salidas.html"
+                    class="block text-corporate-blue bg-blue-50 px-3 py-2 rounded-md font-semibold">Salidas</a>
+                <a href="login.html"
+                    class="block text-gray-700 hover:text-corporate-blue hover:bg-gray-50 px-3 py-2 rounded-md font-medium">Admin</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ══════════════ MAIN ══════════════ -->
+    <main class="flex-grow container mx-auto px-4 py-8 max-w-7xl">
+
+        <!-- Title -->
+        <h1 class="text-3xl md:text-4xl font-bold text-center mb-2 text-corporate-blue">
+            🚪 Registro de Salidas Anticipadas
+        </h1>
+        <p class="text-center text-gray-500 mb-8 text-sm">Datos sincronizados con el formulario Google</p>
+
+        <!-- Stats row -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8" id="statsRow">
+            <div class="stat-card card-shadow rounded-xl p-4 text-center">
+                <p class="text-2xl font-bold text-corporate-blue" id="statTotal">–</p>
+                <p class="text-xs text-gray-500 mt-1">Total registros</p>
+            </div>
+            <div class="stat-card card-shadow rounded-xl p-4 text-center">
+                <p class="text-2xl font-bold text-yellow-600" id="statHoy">–</p>
+                <p class="text-xs text-gray-500 mt-1">Hoy</p>
+            </div>
+            <div class="stat-card card-shadow rounded-xl p-4 text-center">
+                <p class="text-2xl font-bold text-purple-600" id="statFiltrados">–</p>
+                <p class="text-xs text-gray-500 mt-1">Resultados filtro</p>
+            </div>
+            <div class="stat-card card-shadow rounded-xl p-4 text-center">
+                <p class="text-2xl font-bold text-green-600" id="statSedes">–</p>
+                <p class="text-xs text-gray-500 mt-1">Sedes distintas</p>
+            </div>
+        </div>
+
+        <!-- Filter bar -->
+        <div class="card-custom card-shadow bg-white rounded-xl p-5 mb-6">
+            <h2 class="text-base font-semibold text-corporate-blue mb-4">🔍 Filtros</h2>
+            <div class="filter-bar">
+
+                <!-- Fecha desde -->
+                <div class="flex flex-col gap-1">
+                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Fecha desde</label>
+                    <input type="date" id="filterFechaDesde"
+                        class="input-custom px-3 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-corporate-blue focus:ring-2 focus:ring-blue-200 transition-all text-sm">
+                </div>
+
+                <!-- Fecha hasta -->
+                <div class="flex flex-col gap-1">
+                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Fecha hasta</label>
+                    <input type="date" id="filterFechaHasta"
+                        class="input-custom px-3 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-corporate-blue focus:ring-2 focus:ring-blue-200 transition-all text-sm">
+                </div>
+
+                <!-- Sede -->
+                <div class="flex flex-col gap-1">
+                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Sede</label>
+                    <select id="filterSede"
+                        class="input-custom px-3 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-corporate-blue focus:ring-2 focus:ring-blue-200 transition-all text-sm min-w-[160px]">
+                        <option value="">Todas las sedes</option>
+                    </select>
+                </div>
+
+                <!-- Nombre estudiante -->
+                <div class="flex flex-col gap-1 flex-1 min-w-[200px]">
+                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Nombre estudiante</label>
+                    <input type="text" id="filterNombre" placeholder="Buscar por nombre..."
+                        class="input-custom px-3 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-corporate-blue focus:ring-2 focus:ring-blue-200 transition-all text-sm">
+                </div>
+
+                <!-- Buttons -->
+                <div class="flex gap-2 items-end">
+                    <button onclick="aplicarFiltros()"
+                        class="bg-corporate-blue hover:bg-blue-800 text-white px-4 py-2 rounded-lg font-medium transition-all text-sm shadow-sm">
+                        Filtrar
+                    </button>
+                    <button onclick="limpiarFiltros()"
+                        class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg font-medium transition-all text-sm">
+                        Limpiar
+                    </button>
+                    <button onclick="cargarDatos()" id="btnRefresh"
+                        class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-all text-sm shadow-sm flex items-center gap-2">
+                        <svg id="refreshIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                        Refrescar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Last updated -->
+        <p class="text-xs text-gray-400 mb-3 text-right" id="lastUpdated">—</p>
+
+        <!-- Table -->
+        <div class="table-wrapper card-shadow rounded-xl overflow-hidden mb-8">
+            <div class="table-head px-6 py-4">
+                <h2 class="text-lg font-bold">📋 Solicitudes de salida</h2>
+            </div>
+
+            <div id="loadingSpinner" class="py-10 text-center hidden">
+                <div class="spinner"></div>
+                <p class="text-gray-400 text-sm mt-2">Cargando datos...</p>
+            </div>
+
+            <div id="errorMsg" class="hidden px-6 py-8 text-center">
+                <p class="text-corporate-red font-semibold text-lg">❌ Error al cargar los datos</p>
+                <p class="text-gray-500 text-sm mt-2" id="errorDetail">—</p>
+            </div>
+
+            <div class="table-scroll">
+                <table class="w-full text-sm" id="salidaTable">
+                    <thead class="table-head text-xs uppercase tracking-wider">
+                        <tr>
+                            <th class="px-4 py-3 text-left font-semibold">#</th>
+                            <th class="px-4 py-3 text-left font-semibold">Fecha y hora</th>
+                            <th class="px-4 py-3 text-left font-semibold">Estudiante</th>
+                            <th class="px-4 py-3 text-left font-semibold hide-mobile">Tipo autorización</th>
+                            <th class="px-4 py-3 text-left font-semibold hide-mobile">Hora retiro</th>
+                            <th class="px-4 py-3 text-left font-semibold">Sede</th>
+                            <th class="px-4 py-3 text-left font-semibold hide-mobile">Jornada</th>
+                            <th class="px-4 py-3 text-left font-semibold hide-mobile">Quien recoge</th>
+                            <th class="px-4 py-3 text-center font-semibold">Detalle</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- filled by JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="emptyState" class="hidden px-6 py-12 text-center empty-state">
+                <svg class="w-12 h-12 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+                <p class="text-gray-400 font-medium">No hay registros que coincidan con los filtros</p>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ══════════════ DETAIL MODAL ══════════════ -->
+    <div id="detailModal">
+        <div class="modal-bg rounded-2xl shadow-2xl w-full max-w-2xl my-8 overflow-hidden">
+            <!-- Modal header -->
+            <div class="modal-header text-white px-6 py-4 flex justify-between items-center">
+                <h3 class="text-lg font-bold">📄 Detalle de solicitud</h3>
+                <button onclick="cerrarModal()"
+                    class="hover:text-red-300 transition-colors text-2xl leading-none">&times;</button>
+            </div>
+            <div id="modalContent" class="p-6 space-y-4 max-h-[75vh] overflow-y-auto">
+                <!-- filled by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════════ NOTIFICATION ══════════════ -->
+    <div id="notification" class="notification"></div>
+
+    <!-- ══════════════ THEME TOGGLE ══════════════ -->
+    <button id="toggleTheme"
+        class="theme-toggle-btn bg-corporate-blue hover:bg-blue-700 text-white w-12 h-12 rounded-full shadow-lg hover:shadow-xl transition-all flex items-center justify-center"
+        title="Cambiar tema">
+        <svg id="themeIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+    </button>
+
+    <!-- ══════════════ FOOTER ══════════════ -->
+    <footer class="footer-custom text-white mt-auto">
+        <div class="max-w-7xl mx-auto px-4 py-10">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h5 class="text-lg font-bold mb-3 text-white">Gestión Estudiantes</h5>
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        Sistema profesional para la gestión y control de listas de salida de estudiantes.
+                    </p>
+                </div>
+                <div>
+                    <h6 class="text-lg font-semibold mb-3 text-white">Enlaces útiles</h6>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="index.html"
+                                class="text-gray-300 hover:text-corporate-skyblue transition-colors">Inicio</a></li>
+                        <li><a href="grados.html"
+                                class="text-gray-300 hover:text-corporate-skyblue transition-colors">Grados</a></li>
+                        <li><a href="salidas.html"
+                                class="text-gray-300 hover:text-corporate-skyblue transition-colors">Salidas</a></li>
+                        <li><a href="login.html"
+                                class="text-gray-300 hover:text-corporate-skyblue transition-colors">Admin</a></li>
+                    </ul>
+                </div>
+                <div class="md:text-right">
+                    <h6 class="text-lg font-semibold mb-3 text-white">Contacto</h6>
+                    <p class="text-gray-300 mb-2 text-sm">
+                        Desarrollado por
+                        <a href="https://www.instagram.com/yeison02._.ssj?igsh=cTBqc2I4YXpwbXFj" target="_blank"
+                            class="text-corporate-skyblue hover:text-blue-300 transition-colors font-semibold">
+                            Yeison Prada
+                        </a>
+                    </p>
+                    <p class="text-gray-400 text-sm">&copy; <span id="year"></span> Todos los derechos reservados.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ══════════════════════════════════════
+         JAVASCRIPT
+    ══════════════════════════════════════ -->
+    <script>
+        /* ─── CONFIG ─── */
+        const SHEET_ID = '1LaghKUwJp1HwEj6qNwU7r7sJmDGLsPGA6pSwg7zbOnU';
+        const SHEET_TAB = 'Respuestas de formulario 1';
+        const API_KEY = 'AIzaSyAIi6RJGCHX8EK_yPpHwJyE_UAh8AMdfoo';
+
+        // Si corre en Express (puerto 3000 o producción) usa el proxy seguro.
+        // En Live Server u otros entornos llama a Google Sheets directamente.
+        const USE_PROXY = (window.location.port === '3000' || window.location.port === '');
+
+        /* Column indices (0-based) matching the form structure */
+        const COL = {
+            fecha: 0,   // Marca temporal
+            email: 1,   // Email
+            acudiente: 2,   // Nombre acudiente
+            docAcudiente: 3,   // Documento acudiente
+            estudiante: 4,   // Nombre estudiante
+            tipoAuth: 5,   // Tipo de autorización
+            horaRetiro: 6,   // Hora retiro
+            motivo: 7,   // Motivo salida
+            sede: 8,   // Sede
+            jornada: 9,   // Jornada
+            quienRecoge: 10,  // Nombre quien recoge
+            docRecoge: 11,  // Documento quien recoge
+            parentescoRecoge: 12,// Parentesco quien recoge
+            persAutorizada: 13,  // Nombre persona autorizada
+            docAutorizada: 14,  // Doc persona autorizada
+            contactoAutorizada: 15, // Contacto persona autorizada
+            parentescoAutorizada: 16, // Parentesco persona autorizada
+            foto: 17,  // Foto adjunta
+            medicamento: 18,  // Nombre medicamento
+            dosis: 19,  // Dosis
+            motivoMed: 20,  // Motivo medicamento
+            indicaciones: 21,  // Indicaciones especiales
+            confirma: 22,  // Confirmación
+        };
+
+        /* ─── STATE ─── */
+        let allRows = [];  // all data rows (without header)
+        let headerRow = [];  // column headers from sheet
+        let filteredRows = [];
+
+        /* ─── HELPERS ─── */
+        function getCell(row, idx) {
+            return (row && row[idx] !== undefined && row[idx] !== null) ? String(row[idx]).trim() : '—';
+        }
+
+        function formatFecha(raw) {
+            if (!raw || raw === '—') return '—';
+            // Format: "12/03/2026 7:21:02"  → parse and reformat
+            try {
+                const parts = raw.split(' ');
+                const [d, m, y] = parts[0].split('/');
+                const time = parts[1] || '';
+                const date = new Date(`${y}-${m}-${d}T${time}`);
+                if (isNaN(date)) return raw;
+                return date.toLocaleDateString('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric' })
+                    + ' ' + date.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' });
+            } catch { return raw; }
+        }
+
+        function parseDate(raw) {
+            if (!raw) return null;
+            try {
+                const parts = raw.split(' ')[0].split('/');
+                if (parts.length < 3) return null;
+                const [d, m, y] = parts;
+                return new Date(`${y}-${m.padStart(2, '0')}-${d.padStart(2, '0')}`);
+            } catch { return null; }
+        }
+
+        function getTipoClass(tipo) {
+            if (!tipo || tipo === '—') return 'badge badge-salida';
+            const t = tipo.toLowerCase();
+            if (t.includes('medicamento')) return 'badge badge-medicamento';
+            if (t.includes('autoriza')) return 'badge badge-autorizacion';
+            return 'badge badge-salida';
+        }
+
+        function mostrarNotificacion(msg, color = '#1E3A8A') {
+            const n = document.getElementById('notification');
+            n.textContent = msg;
+            n.style.background = color;
+            n.style.display = 'block';
+            setTimeout(() => n.style.display = 'none', 3000);
+        }
+
+        /* ─── FETCH DATA ─── */
+        async function cargarDatos() {
+            setLoading(true);
+            hideError();
+
+            try {
+                let headerRow_tmp = [];
+                let allRows_tmp = [];
+
+                if (USE_PROXY) {
+                    // Ruta segura: el servidor Express oculta la API key
+                    const res = await fetch('/api/salidas');
+                    if (!res.ok) {
+                        const err = await res.json().catch(() => ({}));
+                        throw new Error(err.error || `HTTP ${res.status}`);
+                    }
+                    const json = await res.json();
+                    headerRow_tmp = json.headers || [];
+                    allRows_tmp = json.rows || [];
+                } else {
+                    // Live Server / apertura directa: llama Google Sheets directamente
+                    const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(SHEET_TAB)}?key=${API_KEY}`;
+                    const res = await fetch(url);
+                    if (!res.ok) {
+                        const err = await res.json().catch(() => ({}));
+                        throw new Error(err?.error?.message || `HTTP ${res.status}`);
+                    }
+                    const json = await res.json();
+                    const values = json.values || [];
+                    headerRow_tmp = values[0] || [];
+                    allRows_tmp = values.slice(1) || [];
+                }
+
+                headerRow = headerRow_tmp;
+                allRows = allRows_tmp;
+
+                // Populate sede select
+                poblarSedes();
+
+                // Apply current filters
+                aplicarFiltros();
+
+                // Update timestamp
+                const now = new Date();
+                document.getElementById('lastUpdated').textContent =
+                    `Última actualización: ${now.toLocaleTimeString('es-CO')}`;
+
+                mostrarNotificacion('✅ Datos actualizados');
+            } catch (err) {
+                console.error('Error cargando datos de Google Sheets:', err);
+                showError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        /* ─── SEDES ─── */
+        function poblarSedes() {
+            const select = document.getElementById('filterSede');
+            const current = select.value;
+            const sedes = [...new Set(allRows.map(r => getCell(r, COL.sede)).filter(s => s && s !== '—'))].sort();
+
+            select.innerHTML = '<option value="">Todas las sedes</option>';
+            sedes.forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = s;
+                opt.textContent = s;
+                select.appendChild(opt);
+            });
+            if (current) select.value = current;
+        }
+
+        /* ─── FILTERS ─── */
+        function aplicarFiltros() {
+            const desde = document.getElementById('filterFechaDesde').value;
+            const hasta = document.getElementById('filterFechaHasta').value;
+            const sede = document.getElementById('filterSede').value.toLowerCase().trim();
+            const nombre = document.getElementById('filterNombre').value.toLowerCase().trim();
+
+            filteredRows = allRows.filter(row => {
+                const fechaRow = parseDate(getCell(row, COL.fecha));
+
+                if (desde && fechaRow) {
+                    const d = new Date(desde + 'T00:00:00');
+                    if (fechaRow < d) return false;
+                }
+                if (hasta && fechaRow) {
+                    const h = new Date(hasta + 'T23:59:59');
+                    if (fechaRow > h) return false;
+                }
+                if (sede && getCell(row, COL.sede).toLowerCase() !== sede) return false;
+                if (nombre && !getCell(row, COL.estudiante).toLowerCase().includes(nombre)) return false;
+                return true;
+            });
+
+            renderTabla();
+            actualizarStats();
+        }
+
+        function limpiarFiltros() {
+            document.getElementById('filterFechaDesde').value = '';
+            document.getElementById('filterFechaHasta').value = '';
+            document.getElementById('filterSede').value = '';
+            document.getElementById('filterNombre').value = '';
+            aplicarFiltros();
+        }
+
+        /* ─── RENDER TABLE ─── */
+        function renderTabla() {
+            const tbody = document.getElementById('tableBody');
+            const empty = document.getElementById('emptyState');
+            const table = document.getElementById('salidaTable');
+
+            tbody.innerHTML = '';
+
+            if (filteredRows.length === 0) {
+                table.classList.add('hidden');
+                empty.classList.remove('hidden');
+                return;
+            }
+
+            table.classList.remove('hidden');
+            empty.classList.add('hidden');
+
+            filteredRows.forEach((row, idx) => {
+                const tipoTxt = getCell(row, COL.tipoAuth);
+                const tr = document.createElement('tr');
+                tr.className = 'table-row-custom border-b border-gray-100 cursor-pointer';
+                tr.innerHTML = `
+                    <td class="px-4 py-3 text-gray-400 text-xs">${idx + 1}</td>
+                    <td class="px-4 py-3 text-xs font-medium text-gray-700 whitespace-nowrap">${formatFecha(getCell(row, COL.fecha))}</td>
+                    <td class="px-4 py-3 font-semibold text-corporate-blue text-sm">${getCell(row, COL.estudiante)}</td>
+                    <td class="px-4 py-3 hide-mobile"><span class="${getTipoClass(tipoTxt)}">${tipoTxt.length > 30 ? tipoTxt.slice(0, 28) + '…' : tipoTxt}</span></td>
+                    <td class="px-4 py-3 text-xs text-gray-600 hide-mobile">${getCell(row, COL.horaRetiro)}</td>
+                    <td class="px-4 py-3"><span class="badge badge-sede">${getCell(row, COL.sede)}</span></td>
+                    <td class="px-4 py-3 text-xs text-gray-600 hide-mobile">${getCell(row, COL.jornada)}</td>
+                    <td class="px-4 py-3 text-xs text-gray-600 hide-mobile">${getCell(row, COL.quienRecoge)}</td>
+                    <td class="px-4 py-3 text-center">
+                        <button onclick="abrirModal(${allRows.indexOf(row)})"
+                            class="bg-corporate-blue hover:bg-blue-800 text-white text-xs px-3 py-1.5 rounded-lg transition-all font-medium shadow-sm">
+                            Ver
+                        </button>
+                    </td>`;
+                tbody.appendChild(tr);
+            });
+        }
+
+        /* ─── STATS ─── */
+        function actualizarStats() {
+            const hoy = new Date().toLocaleDateString('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric' });
+
+            const total = allRows.length;
+            const hoyCount = allRows.filter(r => {
+                const f = parseDate(getCell(r, COL.fecha));
+                return f && f.toLocaleDateString('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric' }) === hoy;
+            }).length;
+            const sedesSet = new Set(allRows.map(r => getCell(r, COL.sede)).filter(s => s && s !== '—'));
+
+            document.getElementById('statTotal').textContent = total;
+            document.getElementById('statHoy').textContent = hoyCount;
+            document.getElementById('statFiltrados').textContent = filteredRows.length;
+            document.getElementById('statSedes').textContent = sedesSet.size;
+        }
+
+        /* ─── MODAL ─── */
+        function abrirModal(rowIdx) {
+            const row = allRows[rowIdx];
+            if (!row) return;
+
+            const sections = [
+                {
+                    title: '👤 Información del Estudiante',
+                    fields: [
+                        ['Nombre del estudiante', getCell(row, COL.estudiante)],
+                        ['Tipo de autorización', getCell(row, COL.tipoAuth)],
+                        ['Hora de retiro', getCell(row, COL.horaRetiro)],
+                        ['Motivo de salida', getCell(row, COL.motivo)],
+                        ['Sede', getCell(row, COL.sede)],
+                        ['Jornada', getCell(row, COL.jornada)],
+                    ]
+                },
+                {
+                    title: '👨‍👩‍👦 Acudiente que Autoriza',
+                    fields: [
+                        ['Nombre del acudiente', getCell(row, COL.acudiente)],
+                        ['Documento del acudiente', getCell(row, COL.docAcudiente)],
+                        ['Correo electrónico', getCell(row, COL.email)],
+                        ['Fecha de solicitud', formatFecha(getCell(row, COL.fecha))],
+                    ]
+                },
+                {
+                    title: '🚶 Persona que Recoge',
+                    fields: [
+                        ['Nombre', getCell(row, COL.quienRecoge)],
+                        ['Documento', getCell(row, COL.docRecoge)],
+                        ['Parentesco', getCell(row, COL.parentescoRecoge)],
+                    ]
+                },
+                {
+                    title: '✅ Persona Autorizada',
+                    fields: [
+                        ['Nombre completo', getCell(row, COL.persAutorizada)],
+                        ['Documento', getCell(row, COL.docAutorizada)],
+                        ['Contacto', getCell(row, COL.contactoAutorizada)],
+                        ['Parentesco', getCell(row, COL.parentescoAutorizada)],
+                    ]
+                },
+                {
+                    title: '💊 Medicamento (si aplica)',
+                    fields: [
+                        ['Medicamento', getCell(row, COL.medicamento)],
+                        ['Dosis', getCell(row, COL.dosis)],
+                        ['Motivo', getCell(row, COL.motivoMed)],
+                        ['Indicaciones', getCell(row, COL.indicaciones)],
+                    ],
+                    onlyIf: getCell(row, COL.medicamento) !== '—'
+                },
+            ];
+
+            let html = '';
+            sections.forEach(sec => {
+                if (sec.onlyIf === false) return;
+                html += `<div class="modal-section rounded-xl p-4">
+                    <h4 class="font-bold text-corporate-blue mb-3 text-sm">${sec.title}</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">`;
+                sec.fields.forEach(([label, val]) => {
+                    html += `<div>
+                        <p class="modal-label">${label}</p>
+                        <p class="text-sm mt-0.5 break-words">${val}</p>
+                    </div>`;
+                });
+                html += `</div></div>`;
+            });
+
+            document.getElementById('modalContent').innerHTML = html;
+            document.getElementById('detailModal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function cerrarModal() {
+            document.getElementById('detailModal').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        // Close modal on backdrop click
+        document.getElementById('detailModal').addEventListener('click', function (e) {
+            if (e.target === this) cerrarModal();
+        });
+
+        // Close modal on Escape
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') cerrarModal();
+        });
+
+        /* ─── LOADING / ERROR ─── */
+        function setLoading(on) {
+            const spinner = document.getElementById('loadingSpinner');
+            const table = document.getElementById('salidaTable');
+            const btn = document.getElementById('btnRefresh');
+            const icon = document.getElementById('refreshIcon');
+
+            if (on) {
+                spinner.classList.remove('hidden');
+                table.classList.add('hidden');
+                btn.disabled = true;
+                btn.classList.add('opacity-60', 'cursor-not-allowed');
+                icon.style.animation = 'spin .8s linear infinite';
+            } else {
+                spinner.classList.add('hidden');
+                btn.disabled = false;
+                btn.classList.remove('opacity-60', 'cursor-not-allowed');
+                icon.style.animation = '';
+            }
+        }
+
+        function showError(msg) {
+            document.getElementById('errorMsg').classList.remove('hidden');
+            document.getElementById('errorDetail').textContent = msg;
+            document.getElementById('salidaTable').classList.add('hidden');
+        }
+
+        function hideError() {
+            document.getElementById('errorMsg').classList.add('hidden');
+        }
+
+        /* ─── THEME ─── */
+        function setTheme(dark) {
+            const icon = document.getElementById('themeIcon');
+            if (dark) {
+                document.body.classList.add('theme-dark');
+                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.body.classList.remove('theme-dark');
+                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        document.getElementById('toggleTheme').addEventListener('click', function () {
+            setTheme(!document.body.classList.contains('theme-dark'));
+        });
+
+        /* ─── MOBILE MENU ─── */
+        document.getElementById('mobileMenuBtn').addEventListener('click', function () {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        });
+
+        /* ─── INIT ─── */
+        document.getElementById('year').textContent = new Date().getFullYear();
+        if (localStorage.getItem('theme') === 'dark') setTheme(true);
+        cargarDatos();
+    </script>
+</body>
+
+</html>

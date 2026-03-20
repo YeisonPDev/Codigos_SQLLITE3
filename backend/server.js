@@ -21,13 +21,13 @@ app.use(express.json());
 // --- Inicializar Supabase ---
 if (!process.env.SUPABASE_URL || !process.env.SUPABASE_KEY) {
   console.error(
-    "❌ ERROR: Faltan variables de entorno SUPABASE_URL o SUPABASE_KEY"
+    "❌ ERROR: Faltan variables de entorno SUPABASE_URL o SUPABASE_KEY",
   );
   process.exit(1);
 }
 const supabase = createClient(
   process.env.SUPABASE_URL,
-  process.env.SUPABASE_KEY
+  process.env.SUPABASE_KEY,
 );
 
 // --- Servir el frontend ---
