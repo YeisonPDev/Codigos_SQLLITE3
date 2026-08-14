@@ -311,15 +311,32 @@ const API_KEY   = 'AIzaSyAIi6RJGCHX8EK_yPpHwJyE_UAh8AMdfoo';
 const API_BASE  = (window.location.port === '5500') ? 'http://localhost:3000' : '';
 
 /* ──────────────────────────────────────────
-   COLUMN MAP
+   COLUMN MAP — estructura actualizada del formulario
+   (sin columna email, todo corre un índice)
 ────────────────────────────────────────── */
 const COL = {
-    fecha:0, email:1, acudiente:2, docAcudiente:3,
-    estudiante:4, tipoAuth:5, horaRetiro:6, motivo:7,
-    sede:8, jornada:9, quienRecoge:10, docRecoge:11,
-    parentescoRecoge:12, persAutorizada:13, docAutorizada:14,
-    contactoAutorizada:15, parentescoAutorizada:16, foto:17,
-    medicamento:18, dosis:19, motivoMed:20, indicaciones:21, confirma:22,
+    fecha:               0,  // Marca temporal
+    acudiente:           1,  // Nombre completo del acudiente
+    docAcudiente:        2,  // Número de documento del acudiente
+    estudiante:          3,  // Nombre completo del estudiante
+    tipoAuth:            4,  // Tipo de autorización
+    horaRetiro:          5,  // Hora en la que se retirará
+    motivo:              6,  // Motivo de la salida anticipada
+    sede:                7,  // Sede
+    jornada:             8,  // Jornada
+    quienRecoge:         9,  // Nombre persona que recoge
+    docRecoge:           10, // Documento persona que recoge
+    parentescoRecoge:    11, // Parentesco persona que recoge
+    persAutorizada:      12, // Nombre persona autorizada
+    docAutorizada:       13, // Documento persona autorizada
+    contactoAutorizada:  14, // Contacto persona autorizada
+    parentescoAutorizada:15, // Parentesco persona autorizada
+    foto:                16, // Foto adjunta
+    medicamento:         17, // Nombre del medicamento
+    dosis:               18, // Dosis
+    motivoMed:           19, // Motivo medicamento
+    indicaciones:        20, // Indicaciones especiales
+    confirma:            21, // Confirmación
 };
 
 /* ──────────────────────────────────────────
@@ -778,7 +795,6 @@ async function abrirModal(rowIdx) {
         { title:'👨‍👩‍👦 Acudiente', fields:[
             ['Nombre', getCell(row,COL.acudiente)],
             ['Documento', getCell(row,COL.docAcudiente)],
-            ['Email', getCell(row,COL.email)],
             ['Fecha solicitud', formatFecha(getCell(row,COL.fecha))],
         ]},
         { title:'🚶 Quien recoge', fields:[
