@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,627 +8,910 @@
     <link rel="icon" href="img/logo.png" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            theme: { extend: {
-                colors: {
-                    'corporate-red': '#DC2626',
-                    'corporate-blue': '#1E3A8A',
-                    'corporate-skyblue': '#3B82F6',
-                },
-                fontFamily: { 'sans': ['Inter','system-ui','-apple-system','sans-serif'] }
-            }}
+            theme: {
+                extend: {
+                    colors: {
+                        'corporate-red': '#DC2626',
+                        'corporate-blue': '#1E3A8A',
+                        'corporate-skyblue': '#3B82F6',
+                    },
+                    fontFamily: { 'sans': ['Inter', 'system-ui', '-apple-system', 'sans-serif'] }
+                }
+            }
         }
     </script>
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
 
         /* ── Dark mode ── */
-        .theme-dark { background-color:#1a1a2e; color:#eee; }
-        .theme-dark .card-custom    { background-color:#16213e; border-color:#0f3460; }
-        .theme-dark .input-custom   { background-color:#0f3460; color:#eee; border-color:#1a1a2e; }
-        .theme-dark .nav-custom     { background-color:#0f3460; border-color:#1a1a2e; }
-        .theme-dark .footer-custom  { background-color:#0f1419; }
-        .theme-dark .stat-card      { background-color:#16213e; border-color:#0f3460; }
-        .theme-dark .table-wrapper  { background-color:#16213e; border-color:#0f3460; }
-        .theme-dark .table-head     { background-color:#0f3460; color:#93c5fd; }
-        .theme-dark .modal-bg       { background-color:#16213e; color:#eee; }
-        .theme-dark .modal-header   { background-color:#0f3460; }
-        .theme-dark .modal-section  { background-color:#1a1a2e; border-color:#0f3460; }
-        .theme-dark .modal-label    { color:#93c5fd; }
-        .theme-dark .card-row       { background-color:#16213e; border-color:#0f3460; color:#ddd; }
-        .theme-dark .card-row:hover { background-color:#1a1a2e; }
-        .theme-dark .badge-sede     { background-color:#1e3a5f; color:#93c5fd; }
-        .theme-dark .badge-salida   { background:#78350f; color:#fde68a; }
-        .theme-dark .badge-medicamento { background:#064e3b; color:#6ee7b7; }
-        .theme-dark .badge-autorizacion { background:#4c1d95; color:#ddd6fe; }
-        .theme-dark .week-banner    { background-color:#0f3460; border-color:#1e40af; color:#93c5fd; }
-        .theme-dark .student-info-box { background-color:#0f3460; border-color:#1e40af; }
+        .theme-dark {
+            background-color: #1a1a2e;
+            color: #eee;
+        }
+
+        .theme-dark .card-custom {
+            background-color: #16213e;
+            border-color: #0f3460;
+        }
+
+        .theme-dark .input-custom {
+            background-color: #0f3460;
+            color: #eee;
+            border-color: #1a1a2e;
+        }
+
+        .theme-dark .nav-custom {
+            background-color: #0f3460;
+            border-color: #1a1a2e;
+        }
+
+        .theme-dark .footer-custom {
+            background-color: #0f1419;
+        }
+
+        .theme-dark .stat-card {
+            background-color: #16213e;
+            border-color: #0f3460;
+        }
+
+        .theme-dark .table-wrapper {
+            background-color: #16213e;
+            border-color: #0f3460;
+        }
+
+        .theme-dark .table-head {
+            background-color: #0f3460;
+            color: #93c5fd;
+        }
+
+        .theme-dark .modal-bg {
+            background-color: #16213e;
+            color: #eee;
+        }
+
+        .theme-dark .modal-header {
+            background-color: #0f3460;
+        }
+
+        .theme-dark .modal-section {
+            background-color: #1a1a2e;
+            border-color: #0f3460;
+        }
+
+        .theme-dark .modal-label {
+            color: #93c5fd;
+        }
+
+        .theme-dark .card-row {
+            background-color: #16213e;
+            border-color: #0f3460;
+            color: #ddd;
+        }
+
+        .theme-dark .card-row:hover {
+            background-color: #1a1a2e;
+        }
+
+        .theme-dark .badge-sede {
+            background-color: #1e3a5f;
+            color: #93c5fd;
+        }
+
+        .theme-dark .badge-salida {
+            background: #78350f;
+            color: #fde68a;
+        }
+
+        .theme-dark .badge-medicamento {
+            background: #064e3b;
+            color: #6ee7b7;
+        }
+
+        .theme-dark .badge-autorizacion {
+            background: #4c1d95;
+            color: #ddd6fe;
+        }
+
+        .theme-dark .week-banner {
+            background-color: #0f3460;
+            border-color: #1e40af;
+            color: #93c5fd;
+        }
+
+        .theme-dark .student-info-box {
+            background-color: #0f3460;
+            border-color: #1e40af;
+        }
 
         /* ── Light ── */
-        .table-head   { background-color:#1E3A8A; color:#fff; }
-        .table-wrapper { background-color:#fff; border:1px solid #e5e7eb; }
-        .modal-bg     { background-color:#fff; }
-        .modal-header { background-color:#1E3A8A; }
-        .modal-section { background-color:#f8fafc; border:1px solid #e2e8f0; }
-        .modal-label  { color:#1E3A8A; font-weight:600; font-size:.72rem; text-transform:uppercase; letter-spacing:.05em; }
-        .stat-card    { background-color:#fff; border:1px solid #e5e7eb; }
-        .week-banner  { background-color:#eff6ff; border:1px solid #bfdbfe; color:#1e40af; }
-        .student-info-box { background-color:#f0f9ff; border:1px solid #bae6fd; }
+        .table-head {
+            background-color: #1E3A8A;
+            color: #fff;
+        }
+
+        .table-wrapper {
+            background-color: #fff;
+            border: 1px solid #e5e7eb;
+        }
+
+        .modal-bg {
+            background-color: #fff;
+        }
+
+        .modal-header {
+            background-color: #1E3A8A;
+        }
+
+        .modal-section {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+        }
+
+        .modal-label {
+            color: #1E3A8A;
+            font-weight: 600;
+            font-size: .72rem;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+        }
+
+        .stat-card {
+            background-color: #fff;
+            border: 1px solid #e5e7eb;
+        }
+
+        .week-banner {
+            background-color: #eff6ff;
+            border: 1px solid #bfdbfe;
+            color: #1e40af;
+        }
+
+        .student-info-box {
+            background-color: #f0f9ff;
+            border: 1px solid #bae6fd;
+        }
 
         /* ── Card rows (mobile-first, replace <table> on small screens) ── */
         .card-row {
-            background:#fff;
-            border:1px solid #e5e7eb;
-            border-radius:.75rem;
-            padding:1rem;
-            margin-bottom:.625rem;
-            transition:all .15s;
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: .75rem;
+            padding: 1rem;
+            margin-bottom: .625rem;
+            transition: all .15s;
         }
-        .card-row:hover { box-shadow:0 2px 8px rgba(0,0,0,.1); }
+
+        .card-row:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .1);
+        }
 
         /* ── Shared ── */
-        .footer-custom { background:#111827; }
-        .nav-shadow    { box-shadow:0 2px 4px rgba(0,0,0,.06); }
-        .card-shadow   { box-shadow:0 2px 8px rgba(0,0,0,.08); transition:all .3s; }
-        .card-shadow:hover { box-shadow:0 4px 12px rgba(0,0,0,.12); }
+        .footer-custom {
+            background: #111827;
+        }
 
-        .theme-toggle-btn { position:fixed; bottom:2rem; right:2rem; z-index:1000; }
+        .nav-shadow {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .06);
+        }
 
-        .spinner { width:40px; height:40px; border:4px solid #e5e7eb; border-top-color:#1E3A8A; border-radius:50%; animation:spin .8s linear infinite; margin:2rem auto; }
-        @keyframes spin { to { transform:rotate(360deg); } }
+        .card-shadow {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
+            transition: all .3s;
+        }
+
+        .card-shadow:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .12);
+        }
+
+        .theme-toggle-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e5e7eb;
+            border-top-color: #1E3A8A;
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
+            margin: 2rem auto;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
 
         /* Modals */
-        .overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:9000; overflow-y:auto; padding:1rem; }
-        .overlay.open { display:flex; align-items:flex-start; justify-content:center; }
+        .overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .55);
+            z-index: 9000;
+            overflow-y: auto;
+            padding: 1rem;
+        }
 
-        .notification { position:fixed; top:1rem; right:1rem; left:1rem; background:#1E3A8A; color:#fff; padding:.875rem 1.25rem; border-radius:.75rem; box-shadow:0 4px 12px rgba(0,0,0,.15); display:none; z-index:9999; animation:slideIn .3s ease-out; text-align:center; font-size:.875rem; }
-        @media(min-width:640px){ .notification { top:20px; right:20px; left:auto; font-size:1rem; } }
-        @keyframes slideIn { from{transform:translateX(300px);opacity:0} to{transform:translateX(0);opacity:1} }
+        .overlay.open {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
 
-        .badge { display:inline-block; padding:.2rem .65rem; border-radius:9999px; font-size:.7rem; font-weight:600; white-space:nowrap; }
-        .badge-salida    { background:#fef3c7; color:#92400e; }
-        .badge-medicamento { background:#d1fae5; color:#065f46; }
-        .badge-autorizacion { background:#ede9fe; color:#5b21b6; }
-        .badge-sede      { background:#dbeafe; color:#1e40af; }
+        .notification {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            left: 1rem;
+            background: #1E3A8A;
+            color: #fff;
+            padding: .875rem 1.25rem;
+            border-radius: .75rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
+            display: none;
+            z-index: 9999;
+            animation: slideIn .3s ease-out;
+            text-align: center;
+            font-size: .875rem;
+        }
+
+        @media(min-width:640px) {
+            .notification {
+                top: 20px;
+                right: 20px;
+                left: auto;
+                font-size: 1rem;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(300px);
+                opacity: 0
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1
+            }
+        }
+
+        .badge {
+            display: inline-block;
+            padding: .2rem .65rem;
+            border-radius: 9999px;
+            font-size: .7rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .badge-salida {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-medicamento {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-autorizacion {
+            background: #ede9fe;
+            color: #5b21b6;
+        }
+
+        .badge-sede {
+            background: #dbeafe;
+            color: #1e40af;
+        }
 
         /* Filter bar */
-        .filter-bar { display:flex; flex-wrap:wrap; gap:.625rem; align-items:flex-end; }
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .625rem;
+            align-items: flex-end;
+        }
 
         /* Student info section inside modal */
-        .info-loading { display:flex; align-items:center; gap:.5rem; color:#6b7280; font-size:.85rem; }
-        .info-spinner { width:16px; height:16px; border:2px solid #e5e7eb; border-top-color:#1E3A8A; border-radius:50%; animation:spin .8s linear infinite; }
+        .info-loading {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            color: #6b7280;
+            font-size: .85rem;
+        }
+
+        .info-spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #e5e7eb;
+            border-top-color: #1E3A8A;
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
+        }
     </style>
 </head>
 
 <body class="bg-gray-50 min-h-screen flex flex-col">
 
-<!-- ══════════ NAVBAR ══════════ -->
-<nav class="nav-custom bg-white border-b border-gray-200 nav-shadow sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16">
-            <div class="flex items-center">
-                <img src="img/logo.png" alt="logo" class="w-10 h-10 rounded-full mr-3 border-2 border-corporate-blue">
-                <a href="index.html" class="text-corporate-blue text-xl font-bold hover:text-corporate-skyblue transition-colors">Gestión Estudiantes</a>
+    <!-- ══════════ NAVBAR ══════════ -->
+    <nav class="nav-custom bg-white border-b border-gray-200 nav-shadow sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <img src="img/logo.png" alt="logo"
+                        class="w-10 h-10 rounded-full mr-3 border-2 border-corporate-blue">
+                    <a href="index.html"
+                        class="text-corporate-blue text-xl font-bold hover:text-corporate-skyblue transition-colors">Gestión
+                        Estudiantes</a>
+                </div>
+                <button id="mobileMenuBtn" class="md:hidden text-corporate-blue focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+                <div class="hidden md:flex items-center space-x-1">
+                    <a href="index.html"
+                        class="text-gray-700 hover:text-corporate-blue hover:bg-gray-50 px-4 py-2 rounded-md transition-all font-medium">Inicio</a>
+                    <a href="https://sistemas-gradosplay.onrender.com/"
+                        class="text-gray-700 hover:text-corporate-blue hover:bg-gray-50 px-4 py-2 rounded-md transition-all font-medium">Grados</a>
+                    <a href="salidas.html"
+                        class="text-corporate-blue bg-blue-50 px-4 py-2 rounded-md font-semibold border-b-2 border-corporate-blue">Salidas</a>
+                    <a href="login.html"
+                        class="text-gray-700 hover:text-corporate-blue hover:bg-gray-50 px-4 py-2 rounded-md transition-all font-medium">Admin</a>
+                </div>
             </div>
-            <button id="mobileMenuBtn" class="md:hidden text-corporate-blue focus:outline-none">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <div id="mobileMenu" class="hidden md:hidden pb-3 border-t border-gray-100 mt-2 pt-2">
+                <a href="index.html"
+                    class="block text-gray-700 hover:text-corporate-blue px-3 py-2 rounded-md font-medium">Inicio</a>
+                <a href="https://sistemas-gradosplay.onrender.com/"
+                    class="block text-gray-700 hover:text-corporate-blue px-3 py-2 rounded-md font-medium">Grados</a>
+                <a href="salidas.html"
+                    class="block text-corporate-blue bg-blue-50 px-3 py-2 rounded-md font-semibold">Salidas</a>
+                <a href="login.html"
+                    class="block text-gray-700 hover:text-corporate-blue px-3 py-2 rounded-md font-medium">Admin</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ══════════ MAIN ══════════ -->
+    <main class="flex-grow container mx-auto px-3 sm:px-4 py-5 max-w-7xl">
+
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-1 text-corporate-blue">🚪 Salidas
+            Anticipadas</h1>
+        <p class="text-center text-gray-500 mb-5 text-xs sm:text-sm">Sincronizado con el formulario Google</p>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
+            <div class="stat-card card-shadow rounded-xl p-3 text-center">
+                <p class="text-xl sm:text-2xl font-bold text-corporate-blue" id="statTotal">–</p>
+                <p class="text-xs text-gray-500 mt-0.5">Total</p>
+            </div>
+            <div class="stat-card card-shadow rounded-xl p-3 text-center">
+                <p class="text-xl sm:text-2xl font-bold text-yellow-600" id="statHoy">–</p>
+                <p class="text-xs text-gray-500 mt-0.5">Hoy</p>
+            </div>
+            <div class="stat-card card-shadow rounded-xl p-3 text-center">
+                <p class="text-xl sm:text-2xl font-bold text-purple-600" id="statFiltrados">–</p>
+                <p class="text-xs text-gray-500 mt-0.5">En vista</p>
+            </div>
+            <div class="stat-card card-shadow rounded-xl p-3 text-center">
+                <p class="text-xl sm:text-2xl font-bold text-green-600" id="statSedes">–</p>
+                <p class="text-xs text-gray-500 mt-0.5">Sedes</p>
+            </div>
+        </div>
+
+        <!-- Banner semana activa -->
+        <div id="weekBanner"
+            class="week-banner rounded-xl px-4 py-3 mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <div class="flex items-center gap-2 text-sm font-medium">
+                📅 <span id="weekLabel">Mostrando esta semana</span>
+            </div>
+            <button onclick="verTodos()"
+                class="self-start sm:self-auto bg-corporate-blue hover:bg-blue-800 text-white text-xs px-3 py-1.5 rounded-lg font-semibold transition-all">
+                Ver todos los registros
             </button>
-            <div class="hidden md:flex items-center space-x-1">
-                <a href="index.html"   class="text-gray-700 hover:text-corporate-blue hover:bg-gray-50 px-4 py-2 rounded-md transition-all font-medium">Inicio</a>
-                <a href="grados.html"  class="text-gray-700 hover:text-corporate-blue hover:bg-gray-50 px-4 py-2 rounded-md transition-all font-medium">Grados</a>
-                <a href="salidas.html" class="text-corporate-blue bg-blue-50 px-4 py-2 rounded-md font-semibold border-b-2 border-corporate-blue">Salidas</a>
-                <a href="login.html"   class="text-gray-700 hover:text-corporate-blue hover:bg-gray-50 px-4 py-2 rounded-md transition-all font-medium">Admin</a>
+        </div>
+
+        <!-- Filtros -->
+        <div class="card-custom card-shadow bg-white rounded-xl p-4 mb-4">
+            <h2 class="text-sm font-semibold text-corporate-blue mb-3">🔍 Filtros adicionales</h2>
+            <div class="filter-bar">
+                <div class="flex flex-col gap-1">
+                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Desde</label>
+                    <input type="date" id="filterFechaDesde"
+                        class="input-custom px-3 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-corporate-blue text-sm">
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Hasta</label>
+                    <input type="date" id="filterFechaHasta"
+                        class="input-custom px-3 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-corporate-blue text-sm">
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Sede</label>
+                    <select id="filterSede"
+                        class="input-custom px-3 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-corporate-blue text-sm min-w-[140px]">
+                        <option value="">Todas</option>
+                    </select>
+                </div>
+                <div class="flex flex-col gap-1 flex-1 min-w-[160px]">
+                    <label class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Estudiante</label>
+                    <input type="text" id="filterNombre" placeholder="Nombre..."
+                        class="input-custom px-3 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-corporate-blue text-sm">
+                </div>
+                <div class="flex gap-2 items-end flex-wrap">
+                    <button onclick="aplicarFiltros()"
+                        class="bg-corporate-blue hover:bg-blue-800 text-white px-4 py-2 rounded-lg font-medium text-sm shadow-sm">Filtrar</button>
+                    <button onclick="restaurarSemana()"
+                        class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg font-medium text-sm shadow-sm">Esta
+                        semana</button>
+                    <button onclick="cargarDatos()" id="btnRefresh"
+                        class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium text-sm shadow-sm flex items-center gap-1.5">
+                        <svg id="refreshIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                        Refrescar
+                    </button>
+                </div>
             </div>
         </div>
-        <div id="mobileMenu" class="hidden md:hidden pb-3 border-t border-gray-100 mt-2 pt-2">
-            <a href="index.html"   class="block text-gray-700 hover:text-corporate-blue px-3 py-2 rounded-md font-medium">Inicio</a>
-            <a href="grados.html"  class="block text-gray-700 hover:text-corporate-blue px-3 py-2 rounded-md font-medium">Grados</a>
-            <a href="salidas.html" class="block text-corporate-blue bg-blue-50 px-3 py-2 rounded-md font-semibold">Salidas</a>
-            <a href="login.html"   class="block text-gray-700 hover:text-corporate-blue px-3 py-2 rounded-md font-medium">Admin</a>
-        </div>
-    </div>
-</nav>
 
-<!-- ══════════ MAIN ══════════ -->
-<main class="flex-grow container mx-auto px-3 sm:px-4 py-5 max-w-7xl">
+        <!-- Barra de acciones globales -->
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+            <p class="text-xs text-gray-400" id="lastUpdated">—</p>
+            <button onclick="copiarTodos()"
+                class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-4 py-2 rounded-lg font-semibold transition-all flex items-center gap-1.5 shadow-sm">
+                📋 Copiar todo el filtro para WhatsApp
+            </button>
+        </div>
 
-    <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-1 text-corporate-blue">🚪 Salidas Anticipadas</h1>
-    <p class="text-center text-gray-500 mb-5 text-xs sm:text-sm">Sincronizado con el formulario Google</p>
+        <!-- Loading -->
+        <div id="loadingSpinner" class="py-12 text-center hidden">
+            <div class="spinner"></div>
+            <p class="text-gray-400 text-sm mt-2">Cargando datos...</p>
+        </div>
 
-    <!-- Stats -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
-        <div class="stat-card card-shadow rounded-xl p-3 text-center">
-            <p class="text-xl sm:text-2xl font-bold text-corporate-blue" id="statTotal">–</p>
-            <p class="text-xs text-gray-500 mt-0.5">Total</p>
+        <!-- Error -->
+        <div id="errorMsg" class="hidden px-4 py-8 text-center">
+            <p class="text-red-600 font-semibold">❌ Error al cargar los datos</p>
+            <p class="text-gray-500 text-sm mt-2" id="errorDetail">—</p>
         </div>
-        <div class="stat-card card-shadow rounded-xl p-3 text-center">
-            <p class="text-xl sm:text-2xl font-bold text-yellow-600" id="statHoy">–</p>
-            <p class="text-xs text-gray-500 mt-0.5">Hoy</p>
-        </div>
-        <div class="stat-card card-shadow rounded-xl p-3 text-center">
-            <p class="text-xl sm:text-2xl font-bold text-purple-600" id="statFiltrados">–</p>
-            <p class="text-xs text-gray-500 mt-0.5">En vista</p>
-        </div>
-        <div class="stat-card card-shadow rounded-xl p-3 text-center">
-            <p class="text-xl sm:text-2xl font-bold text-green-600" id="statSedes">–</p>
-            <p class="text-xs text-gray-500 mt-0.5">Sedes</p>
-        </div>
-    </div>
 
-    <!-- Banner semana activa -->
-    <div id="weekBanner" class="week-banner rounded-xl px-4 py-3 mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-        <div class="flex items-center gap-2 text-sm font-medium">
-            📅 <span id="weekLabel">Mostrando esta semana</span>
-        </div>
-        <button onclick="verTodos()" class="self-start sm:self-auto bg-corporate-blue hover:bg-blue-800 text-white text-xs px-3 py-1.5 rounded-lg font-semibold transition-all">
-            Ver todos los registros
-        </button>
-    </div>
+        <!-- Cards container (mobile-first, no <table>) -->
+        <div id="cardsContainer" class="mb-8"></div>
 
-    <!-- Filtros -->
-    <div class="card-custom card-shadow bg-white rounded-xl p-4 mb-4">
-        <h2 class="text-sm font-semibold text-corporate-blue mb-3">🔍 Filtros adicionales</h2>
-        <div class="filter-bar">
-            <div class="flex flex-col gap-1">
-                <label class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Desde</label>
-                <input type="date" id="filterFechaDesde" class="input-custom px-3 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-corporate-blue text-sm">
+        <!-- Empty state -->
+        <div id="emptyState" class="hidden px-4 py-12 text-center text-gray-400">
+            <svg class="w-12 h-12 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            </svg>
+            <p class="font-medium">No hay registros que coincidan</p>
+        </div>
+
+    </main>
+
+    <!-- ══════════ MODAL DETALLE SALIDA ══════════ -->
+    <div id="detailModal" class="overlay">
+        <div class="modal-bg rounded-2xl shadow-2xl w-full max-w-lg my-6 overflow-hidden">
+            <div class="modal-header text-white px-5 py-4 flex justify-between items-center">
+                <h3 class="text-base font-bold">📄 Detalle de solicitud</h3>
+                <div class="flex items-center gap-3">
+                    <button onclick="copiarRegistro(currentModalRowIdx, this)"
+                        class="bg-green-500 hover:bg-green-600 text-white text-xs px-3 py-1.5 rounded-lg font-semibold transition-all flex items-center gap-1">
+                        📋 Copiar
+                    </button>
+                    <button onclick="cerrarModal()"
+                        class="hover:text-red-300 transition-colors text-2xl leading-none">&times;</button>
+                </div>
             </div>
-            <div class="flex flex-col gap-1">
-                <label class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Hasta</label>
-                <input type="date" id="filterFechaHasta" class="input-custom px-3 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-corporate-blue text-sm">
+
+            <!-- Info estudiante desde Supabase -->
+            <div id="studentInfoBox" class="student-info-box px-5 py-3 border-b">
+                <p class="text-xs font-semibold text-blue-700 uppercase tracking-wide mb-2">📚 Info del estudiante en el
+                    sistema</p>
+                <div id="studentInfoContent" class="info-loading">
+                    <div class="info-spinner"></div> Buscando...
+                </div>
             </div>
-            <div class="flex flex-col gap-1">
-                <label class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Sede</label>
-                <select id="filterSede" class="input-custom px-3 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-corporate-blue text-sm min-w-[140px]">
-                    <option value="">Todas</option>
-                </select>
-            </div>
-            <div class="flex flex-col gap-1 flex-1 min-w-[160px]">
-                <label class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Estudiante</label>
-                <input type="text" id="filterNombre" placeholder="Nombre..." class="input-custom px-3 py-2 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-corporate-blue text-sm">
-            </div>
-            <div class="flex gap-2 items-end flex-wrap">
-                <button onclick="aplicarFiltros()" class="bg-corporate-blue hover:bg-blue-800 text-white px-4 py-2 rounded-lg font-medium text-sm shadow-sm">Filtrar</button>
-                <button onclick="restaurarSemana()" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg font-medium text-sm shadow-sm">Esta semana</button>
-                <button onclick="cargarDatos()" id="btnRefresh" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium text-sm shadow-sm flex items-center gap-1.5">
-                    <svg id="refreshIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-                    Refrescar
-                </button>
-            </div>
+
+            <div id="modalContent" class="p-5 space-y-3 max-h-[65vh] overflow-y-auto"></div>
         </div>
     </div>
 
-    <!-- Barra de acciones globales -->
-    <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
-        <p class="text-xs text-gray-400" id="lastUpdated">—</p>
-        <button onclick="copiarTodos()"
-            class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-4 py-2 rounded-lg font-semibold transition-all flex items-center gap-1.5 shadow-sm">
-            📋 Copiar todo el filtro para WhatsApp
-        </button>
-    </div>
+    <!-- ══════════ NOTIFICATION ══════════ -->
+    <div id="notification" class="notification"></div>
 
-    <!-- Loading -->
-    <div id="loadingSpinner" class="py-12 text-center hidden">
-        <div class="spinner"></div>
-        <p class="text-gray-400 text-sm mt-2">Cargando datos...</p>
-    </div>
-
-    <!-- Error -->
-    <div id="errorMsg" class="hidden px-4 py-8 text-center">
-        <p class="text-red-600 font-semibold">❌ Error al cargar los datos</p>
-        <p class="text-gray-500 text-sm mt-2" id="errorDetail">—</p>
-    </div>
-
-    <!-- Cards container (mobile-first, no <table>) -->
-    <div id="cardsContainer" class="mb-8"></div>
-
-    <!-- Empty state -->
-    <div id="emptyState" class="hidden px-4 py-12 text-center text-gray-400">
-        <svg class="w-12 h-12 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+    <!-- ══════════ THEME TOGGLE ══════════ -->
+    <button id="toggleTheme"
+        class="theme-toggle-btn bg-corporate-blue hover:bg-blue-700 text-white w-12 h-12 rounded-full shadow-lg hover:shadow-xl transition-all flex items-center justify-center"
+        title="Cambiar tema">
+        <svg id="themeIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
         </svg>
-        <p class="font-medium">No hay registros que coincidan</p>
-    </div>
+    </button>
 
-</main>
-
-<!-- ══════════ MODAL DETALLE SALIDA ══════════ -->
-<div id="detailModal" class="overlay">
-    <div class="modal-bg rounded-2xl shadow-2xl w-full max-w-lg my-6 overflow-hidden">
-        <div class="modal-header text-white px-5 py-4 flex justify-between items-center">
-            <h3 class="text-base font-bold">📄 Detalle de solicitud</h3>
-            <div class="flex items-center gap-3">
-                <button onclick="copiarRegistro(currentModalRowIdx, this)" class="bg-green-500 hover:bg-green-600 text-white text-xs px-3 py-1.5 rounded-lg font-semibold transition-all flex items-center gap-1">
-                    📋 Copiar
-                </button>
-                <button onclick="cerrarModal()" class="hover:text-red-300 transition-colors text-2xl leading-none">&times;</button>
+    <!-- ══════════ FOOTER ══════════ -->
+    <footer class="footer-custom text-white mt-auto">
+        <div class="max-w-7xl mx-auto px-4 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <h5 class="text-base font-bold mb-2 text-white">Gestión Estudiantes</h5>
+                    <p class="text-gray-300 text-xs leading-relaxed">Sistema para la gestión y control de salidas
+                        anticipadas.</p>
+                </div>
+                <div>
+                    <h6 class="text-base font-semibold mb-2 text-white">Enlaces</h6>
+                    <ul class="space-y-1.5 text-xs">
+                        <li><a href="index.html"
+                                class="text-gray-300 hover:text-corporate-skyblue transition-colors">Inicio</a></li>
+                        <li><a href="grados.html"
+                                class="text-gray-300 hover:text-corporate-skyblue transition-colors">Grados</a></li>
+                        <li><a href="salidas.html"
+                                class="text-gray-300 hover:text-corporate-skyblue transition-colors">Salidas</a></li>
+                        <li><a href="login.html"
+                                class="text-gray-300 hover:text-corporate-skyblue transition-colors">Admin</a></li>
+                    </ul>
+                </div>
+                <div class="md:text-right">
+                    <h6 class="text-base font-semibold mb-2 text-white">Contacto</h6>
+                    <p class="text-gray-300 mb-1 text-xs">Desarrollado por
+                        <a href="https://www.instagram.com/yeison02._.ssj?igsh=cTBqc2I4YXpwbXFj" target="_blank"
+                            class="text-corporate-skyblue hover:text-blue-300 font-semibold">Yeison Prada</a>
+                    </p>
+                    <p class="text-gray-400 text-xs">&copy; <span id="year"></span> Todos los derechos reservados.</p>
+                </div>
             </div>
         </div>
+    </footer>
 
-        <!-- Info estudiante desde Supabase -->
-        <div id="studentInfoBox" class="student-info-box px-5 py-3 border-b">
-            <p class="text-xs font-semibold text-blue-700 uppercase tracking-wide mb-2">📚 Info del estudiante en el sistema</p>
-            <div id="studentInfoContent" class="info-loading">
-                <div class="info-spinner"></div> Buscando...
-            </div>
-        </div>
-
-        <div id="modalContent" class="p-5 space-y-3 max-h-[65vh] overflow-y-auto"></div>
-    </div>
-</div>
-
-<!-- ══════════ NOTIFICATION ══════════ -->
-<div id="notification" class="notification"></div>
-
-<!-- ══════════ THEME TOGGLE ══════════ -->
-<button id="toggleTheme" class="theme-toggle-btn bg-corporate-blue hover:bg-blue-700 text-white w-12 h-12 rounded-full shadow-lg hover:shadow-xl transition-all flex items-center justify-center" title="Cambiar tema">
-    <svg id="themeIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
-    </svg>
-</button>
-
-<!-- ══════════ FOOTER ══════════ -->
-<footer class="footer-custom text-white mt-auto">
-    <div class="max-w-7xl mx-auto px-4 py-8">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div>
-                <h5 class="text-base font-bold mb-2 text-white">Gestión Estudiantes</h5>
-                <p class="text-gray-300 text-xs leading-relaxed">Sistema para la gestión y control de salidas anticipadas.</p>
-            </div>
-            <div>
-                <h6 class="text-base font-semibold mb-2 text-white">Enlaces</h6>
-                <ul class="space-y-1.5 text-xs">
-                    <li><a href="index.html"   class="text-gray-300 hover:text-corporate-skyblue transition-colors">Inicio</a></li>
-                    <li><a href="grados.html"  class="text-gray-300 hover:text-corporate-skyblue transition-colors">Grados</a></li>
-                    <li><a href="salidas.html" class="text-gray-300 hover:text-corporate-skyblue transition-colors">Salidas</a></li>
-                    <li><a href="login.html"   class="text-gray-300 hover:text-corporate-skyblue transition-colors">Admin</a></li>
-                </ul>
-            </div>
-            <div class="md:text-right">
-                <h6 class="text-base font-semibold mb-2 text-white">Contacto</h6>
-                <p class="text-gray-300 mb-1 text-xs">Desarrollado por
-                    <a href="https://www.instagram.com/yeison02._.ssj?igsh=cTBqc2I4YXpwbXFj" target="_blank" class="text-corporate-skyblue hover:text-blue-300 font-semibold">Yeison Prada</a>
-                </p>
-                <p class="text-gray-400 text-xs">&copy; <span id="year"></span> Todos los derechos reservados.</p>
-            </div>
-        </div>
-    </div>
-</footer>
-
-<!-- ══════════════════════════════════════════
+    <!-- ══════════════════════════════════════════
      JAVASCRIPT
 ══════════════════════════════════════════ -->
-<script>
-/* ──────────────────────────────────────────
-   CONFIG
-────────────────────────────────────────── */
-const SHEET_ID  = '1Sc1HFGGmsnjIT7tW8umr5TT0DbmuVMh3NWJvRYUSfYE';
-const SHEET_GID = '735221275';
-const API_KEY   = 'AIzaSyAIi6RJGCHX8EK_yPpHwJyE_UAh8AMdfoo';
-// Para consultar Supabase (codigos de estudiantes)
-const API_BASE  = (window.location.port === '5500') ? 'http://localhost:3000' : '';
+    <script>
+        /* ──────────────────────────────────────────
+           CONFIG
+        ────────────────────────────────────────── */
+        const SHEET_ID = '1Sc1HFGGmsnjIT7tW8umr5TT0DbmuVMh3NWJvRYUSfYE';
+        const SHEET_GID = '735221275';
+        const API_KEY = 'AIzaSyAIi6RJGCHX8EK_yPpHwJyE_UAh8AMdfoo';
+        // Para consultar Supabase (codigos de estudiantes)
+        const API_BASE = (window.location.port === '5500') ? 'http://localhost:3000' : '';
 
-/* ──────────────────────────────────────────
-   COLUMN MAP — estructura actualizada del formulario
-   (sin columna email, todo corre un índice)
-────────────────────────────────────────── */
-const COL = {
-    fecha:               0,  // Marca temporal
-    acudiente:           1,  // Nombre completo del acudiente
-    docAcudiente:        2,  // Número de documento del acudiente
-    estudiante:          3,  // Nombre completo del estudiante
-    tipoAuth:            4,  // Tipo de autorización
-    horaRetiro:          5,  // Hora en la que se retirará
-    motivo:              6,  // Motivo de la salida anticipada
-    sede:                7,  // Sede
-    jornada:             8,  // Jornada
-    quienRecoge:         9,  // Nombre persona que recoge
-    docRecoge:           10, // Documento persona que recoge
-    parentescoRecoge:    11, // Parentesco persona que recoge
-    persAutorizada:      12, // Nombre persona autorizada
-    docAutorizada:       13, // Documento persona autorizada
-    contactoAutorizada:  14, // Contacto persona autorizada
-    parentescoAutorizada:15, // Parentesco persona autorizada
-    foto:                16, // Foto adjunta
-    medicamento:         17, // Nombre del medicamento
-    dosis:               18, // Dosis
-    motivoMed:           19, // Motivo medicamento
-    indicaciones:        20, // Indicaciones especiales
-    confirma:            21, // Confirmación
-};
+        /* ──────────────────────────────────────────
+           COLUMN MAP — estructura actualizada del formulario
+           (sin columna email, todo corre un índice)
+        ────────────────────────────────────────── */
+        const COL = {
+            fecha: 0,  // Marca temporal
+            acudiente: 1,  // Nombre completo del acudiente
+            docAcudiente: 2,  // Número de documento del acudiente
+            estudiante: 3,  // Nombre completo del estudiante
+            tipoAuth: 4,  // Tipo de autorización
+            horaRetiro: 5,  // Hora en la que se retirará
+            motivo: 6,  // Motivo de la salida anticipada
+            sede: 7,  // Sede
+            jornada: 8,  // Jornada
+            quienRecoge: 9,  // Nombre persona que recoge
+            docRecoge: 10, // Documento persona que recoge
+            parentescoRecoge: 11, // Parentesco persona que recoge
+            persAutorizada: 12, // Nombre persona autorizada
+            docAutorizada: 13, // Documento persona autorizada
+            contactoAutorizada: 14, // Contacto persona autorizada
+            parentescoAutorizada: 15, // Parentesco persona autorizada
+            foto: 16, // Foto adjunta
+            medicamento: 17, // Nombre del medicamento
+            dosis: 18, // Dosis
+            motivoMed: 19, // Motivo medicamento
+            indicaciones: 20, // Indicaciones especiales
+            confirma: 21, // Confirmación
+        };
 
-/* ──────────────────────────────────────────
-   STATE
-────────────────────────────────────────── */
-let allRows      = [];
-let headerRow    = [];
-let filteredRows = [];
-let estudiantesDB = [];      // cache de Supabase
-let currentModalRowIdx = -1; // índice abierto en modal
-let modoTodos    = false;    // true = sin filtro de semana
+        /* ──────────────────────────────────────────
+           STATE
+        ────────────────────────────────────────── */
+        let allRows = [];
+        let headerRow = [];
+        let filteredRows = [];
+        let estudiantesDB = [];      // cache de Supabase
+        let currentModalRowIdx = -1; // índice abierto en modal
+        let modoTodos = false;    // true = sin filtro de semana
 
-/* ──────────────────────────────────────────
-   SEMANA ACTUAL (dom → hoy)
-────────────────────────────────────────── */
-function getRangoSemana() {
-    const hoy  = new Date();
-    const dia  = hoy.getDay(); // 0=dom
-    const dom  = new Date(hoy);
-    dom.setDate(hoy.getDate() - dia);
-    dom.setHours(0,0,0,0);
-    const formatISO = d => d.toISOString().slice(0,10);
-    return { desde: formatISO(dom), hasta: formatISO(hoy) };
-}
-
-function aplicarFiltroSemana() {
-    const r = getRangoSemana();
-    document.getElementById('filterFechaDesde').value = r.desde;
-    document.getElementById('filterFechaHasta').value = r.hasta;
-    modoTodos = false;
-    actualizarBanner();
-    aplicarFiltros();
-}
-
-function restaurarSemana() {
-    document.getElementById('filterSede').value   = '';
-    document.getElementById('filterNombre').value = '';
-    aplicarFiltroSemana();
-}
-
-function verTodos() {
-    document.getElementById('filterFechaDesde').value = '';
-    document.getElementById('filterFechaHasta').value = '';
-    document.getElementById('filterSede').value   = '';
-    document.getElementById('filterNombre').value = '';
-    modoTodos = true;
-    actualizarBanner();
-    aplicarFiltros();
-}
-
-function actualizarBanner() {
-    const banner = document.getElementById('weekBanner');
-    const label  = document.getElementById('weekLabel');
-    if (modoTodos) {
-        label.textContent = 'Mostrando TODOS los registros';
-        banner.classList.add('bg-orange-50','border-orange-200','text-orange-700');
-        banner.classList.remove('week-banner');
-    } else {
-        const r   = getRangoSemana();
-        const fmt = d => new Date(d+'T12:00:00').toLocaleDateString('es-CO',{day:'2-digit',month:'short'});
-        label.textContent = `Semana: ${fmt(r.desde)} → ${fmt(r.hasta)}`;
-        banner.classList.remove('bg-orange-50','border-orange-200','text-orange-700');
-        banner.classList.add('week-banner');
-    }
-}
-
-/* ──────────────────────────────────────────
-   HELPERS
-────────────────────────────────────────── */
-function getCell(row, idx) {
-    return (row && row[idx] != null) ? String(row[idx]).trim() : '—';
-}
-
-function formatFecha(raw) {
-    if (!raw || raw==='—') return '—';
-    try {
-        const parts = raw.split(' ');
-        const [d,m,y] = parts[0].split('/');
-        const t = parts[1] || '';
-        const dt = new Date(`${y}-${m}-${d}T${t}`);
-        if (isNaN(dt)) return raw;
-        return dt.toLocaleDateString('es-CO',{day:'2-digit',month:'2-digit',year:'numeric'})
-             + ' ' + dt.toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit'});
-    } catch { return raw; }
-}
-
-function parseDate(raw) {
-    if (!raw) return null;
-    try {
-        const p = raw.split(' ')[0].split('/');
-        if (p.length < 3) return null;
-        const [d,m,y] = p;
-        return new Date(`${y}-${m.padStart(2,'0')}-${d.padStart(2,'0')}`);
-    } catch { return null; }
-}
-
-function getTipoClass(tipo) {
-    if (!tipo || tipo==='—') return 'badge badge-salida';
-    const t = tipo.toLowerCase();
-    if (t.includes('medicamento')) return 'badge badge-medicamento';
-    if (t.includes('autoriza'))    return 'badge badge-autorizacion';
-    return 'badge badge-salida';
-}
-
-function notify(msg, color='#1E3A8A') {
-    const n = document.getElementById('notification');
-    n.textContent = msg;
-    n.style.background = color;
-    n.style.display = 'block';
-    setTimeout(()=> n.style.display='none', 3000);
-}
-
-/* ──────────────────────────────────────────
-   GOOGLE SHEETS — DETECTAR PESTAÑA
-────────────────────────────────────────── */
-async function getSheetTabName() {
-    const res = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}?key=${API_KEY}`);
-    if (!res.ok) {
-        const err = await res.json().catch(()=>({}));
-        if (res.status===403) throw new Error('Hoja privada: Compartir → "Cualquiera con el enlace" → Lector.');
-        throw new Error(err?.error?.message || `HTTP ${res.status}`);
-    }
-    const meta = await res.json();
-    const sheet = meta.sheets.find(s => String(s.properties.sheetId) === SHEET_GID);
-    if (!sheet) throw new Error(`No existe pestaña con gid=${SHEET_GID}`);
-    return sheet.properties.title;
-}
-
-/* ──────────────────────────────────────────
-   CARGAR DATOS SHEETS
-────────────────────────────────────────── */
-async function cargarDatos() {
-    setLoading(true);
-    hideError();
-    try {
-        const tab = await getSheetTabName();
-        const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(tab)}?key=${API_KEY}`;
-        const res = await fetch(url);
-        if (!res.ok) {
-            const b = await res.json().catch(()=>({}));
-            const m = b?.error?.message || `HTTP ${res.status}`;
-            if (res.status===403) throw new Error('Acceso denegado (403). Hoja debe ser pública.');
-            throw new Error(m);
+        /* ──────────────────────────────────────────
+           SEMANA ACTUAL (dom → hoy)
+        ────────────────────────────────────────── */
+        function getRangoSemana() {
+            const hoy = new Date();
+            const dia = hoy.getDay(); // 0=dom
+            const dom = new Date(hoy);
+            dom.setDate(hoy.getDate() - dia);
+            dom.setHours(0, 0, 0, 0);
+            const formatISO = d => d.toISOString().slice(0, 10);
+            return { desde: formatISO(dom), hasta: formatISO(hoy) };
         }
-        const json   = await res.json();
-        const values = json.values || [];
-        headerRow = values[0]      || [];
-        allRows   = values.slice(1)|| [];
 
-        poblarSedes();
-        if (!modoTodos) aplicarFiltroSemana();
-        else            aplicarFiltros();
-
-        document.getElementById('lastUpdated').textContent =
-            'Actualizado: ' + new Date().toLocaleTimeString('es-CO');
-        notify('✅ Datos actualizados');
-    } catch(err) {
-        showError(err.message);
-    } finally {
-        setLoading(false);
-    }
-}
-
-/* ──────────────────────────────────────────
-   CARGAR ESTUDIANTES DE SUPABASE
-   Intenta primero el proxy Express; si falla
-   consulta la API REST de Supabase directamente.
-────────────────────────────────────────── */
-async function cargarEstudiantesDB() {
-    // Intento 1: servidor Express (localhost:3000)
-    try {
-        const res = await fetch(`${API_BASE}/api/codigos`, { signal: AbortSignal.timeout(3000) });
-        if (res.ok) {
-            estudiantesDB = await res.json();
-            console.log(`✅ Estudiantes desde Express: ${estudiantesDB.length}`);
-            return;
+        function aplicarFiltroSemana() {
+            const r = getRangoSemana();
+            document.getElementById('filterFechaDesde').value = r.desde;
+            document.getElementById('filterFechaHasta').value = r.hasta;
+            modoTodos = false;
+            actualizarBanner();
+            aplicarFiltros();
         }
-    } catch { /* servidor no disponible, intentamos Supabase directo */ }
 
-    // Intento 2: Supabase REST API directamente
-    try {
-        // Obtener credenciales desde el servidor o usar las conocidas
-        let sbUrl = '', sbKey = '';
-        try {
-            const cfg = await fetch(`${API_BASE}/api/config`, { signal: AbortSignal.timeout(2000) });
-            if (cfg.ok) { const d = await cfg.json(); sbUrl = d.supabaseUrl; sbKey = d.supabaseKey; }
-        } catch {}
-
-        // Fallback a valores hardcodeados si el servidor tampoco responde
-        if (!sbUrl) sbUrl = 'https://dmgwjnsxmawqtecbkgcf.supabase.co';
-        if (!sbKey) sbKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtZ3dqbnN4bWF3cXRlY2JrZ2NmIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NzM0MjY5NiwiZXhwIjoyMDcyOTE4Njk2fQ.uK7OAmqGCj0njTYrSxS_-nFRM0nr9Poea-i2huWmmQQ';
-
-        const res = await fetch(
-            `${sbUrl}/rest/v1/Codigos?select=*&order=id.asc`,
-            { headers: { 'apikey': sbKey, 'Authorization': `Bearer ${sbKey}` } }
-        );
-        if (res.ok) {
-            estudiantesDB = await res.json();
-            console.log(`✅ Estudiantes desde Supabase REST: ${estudiantesDB.length}`);
+        function restaurarSemana() {
+            document.getElementById('filterSede').value = '';
+            document.getElementById('filterNombre').value = '';
+            aplicarFiltroSemana();
         }
-    } catch(e) { console.warn('No se pudo cargar estudiantes:', e.message); }
-}
 
-function buscarEstudianteDB(nombreFormulario) {
-    if (!nombreFormulario || nombreFormulario==='—') return null;
-    const query = nombreFormulario.toLowerCase().trim();
-    return estudiantesDB.find(e => {
-        const n = (e.Nombre || '').toLowerCase();
-        return n === query || n.includes(query) || query.includes(n.split(' ')[0]);
-    }) || null;
-}
+        function verTodos() {
+            document.getElementById('filterFechaDesde').value = '';
+            document.getElementById('filterFechaHasta').value = '';
+            document.getElementById('filterSede').value = '';
+            document.getElementById('filterNombre').value = '';
+            modoTodos = true;
+            actualizarBanner();
+            aplicarFiltros();
+        }
 
-/* ──────────────────────────────────────────
-   SEDES
-────────────────────────────────────────── */
-function poblarSedes() {
-    const sel = document.getElementById('filterSede');
-    const cur = sel.value;
-    const sedes = [...new Set(allRows.map(r=>getCell(r,COL.sede)).filter(s=>s&&s!=='—'))].sort();
-    sel.innerHTML = '<option value="">Todas</option>';
-    sedes.forEach(s=>{ const o=document.createElement('option'); o.value=s; o.textContent=s; sel.appendChild(o); });
-    if(cur) sel.value=cur;
-}
+        function actualizarBanner() {
+            const banner = document.getElementById('weekBanner');
+            const label = document.getElementById('weekLabel');
+            if (modoTodos) {
+                label.textContent = 'Mostrando TODOS los registros';
+                banner.classList.add('bg-orange-50', 'border-orange-200', 'text-orange-700');
+                banner.classList.remove('week-banner');
+            } else {
+                const r = getRangoSemana();
+                const fmt = d => new Date(d + 'T12:00:00').toLocaleDateString('es-CO', { day: '2-digit', month: 'short' });
+                label.textContent = `Semana: ${fmt(r.desde)} → ${fmt(r.hasta)}`;
+                banner.classList.remove('bg-orange-50', 'border-orange-200', 'text-orange-700');
+                banner.classList.add('week-banner');
+            }
+        }
 
-/* ──────────────────────────────────────────
-   FILTROS
-────────────────────────────────────────── */
-function aplicarFiltros() {
-    const desde  = document.getElementById('filterFechaDesde').value;
-    const hasta  = document.getElementById('filterFechaHasta').value;
-    const sede   = document.getElementById('filterSede').value.toLowerCase().trim();
-    const nombre = document.getElementById('filterNombre').value.toLowerCase().trim();
+        /* ──────────────────────────────────────────
+           HELPERS
+        ────────────────────────────────────────── */
+        function getCell(row, idx) {
+            return (row && row[idx] != null) ? String(row[idx]).trim() : '—';
+        }
 
-    filteredRows = allRows.filter(row => {
-        const f = parseDate(getCell(row,COL.fecha));
-        if (desde && f && f < new Date(desde+'T00:00:00')) return false;
-        if (hasta && f && f > new Date(hasta+'T23:59:59')) return false;
-        if (sede   && getCell(row,COL.sede).toLowerCase() !== sede) return false;
-        if (nombre && !getCell(row,COL.estudiante).toLowerCase().includes(nombre)) return false;
-        return true;
-    });
+        function formatFecha(raw) {
+            if (!raw || raw === '—') return '—';
+            try {
+                const parts = raw.split(' ');
+                const [d, m, y] = parts[0].split('/');
+                const t = parts[1] || '';
+                const dt = new Date(`${y}-${m}-${d}T${t}`);
+                if (isNaN(dt)) return raw;
+                return dt.toLocaleDateString('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric' })
+                    + ' ' + dt.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' });
+            } catch { return raw; }
+        }
 
-    renderCards();
-    actualizarStats();
-}
+        function parseDate(raw) {
+            if (!raw) return null;
+            try {
+                const p = raw.split(' ')[0].split('/');
+                if (p.length < 3) return null;
+                const [d, m, y] = p;
+                return new Date(`${y}-${m.padStart(2, '0')}-${d.padStart(2, '0')}`);
+            } catch { return null; }
+        }
 
-/* ──────────────────────────────────────────
-   RENDER — CARDS (responsive, sin tabla)
-────────────────────────────────────────── */
-function renderCards() {
-    const container = document.getElementById('cardsContainer');
-    const empty     = document.getElementById('emptyState');
-    container.innerHTML = '';
+        function getTipoClass(tipo) {
+            if (!tipo || tipo === '—') return 'badge badge-salida';
+            const t = tipo.toLowerCase();
+            if (t.includes('medicamento')) return 'badge badge-medicamento';
+            if (t.includes('autoriza')) return 'badge badge-autorizacion';
+            return 'badge badge-salida';
+        }
 
-    if (filteredRows.length === 0) {
-        empty.classList.remove('hidden');
-        return;
-    }
-    empty.classList.add('hidden');
+        function notify(msg, color = '#1E3A8A') {
+            const n = document.getElementById('notification');
+            n.textContent = msg;
+            n.style.background = color;
+            n.style.display = 'block';
+            setTimeout(() => n.style.display = 'none', 3000);
+        }
 
-    filteredRows.forEach((row, idx) => {
-        const globalIdx = allRows.indexOf(row);
-        const tipo   = getCell(row, COL.tipoAuth);
-        const fecha  = formatFecha(getCell(row, COL.fecha));
-        const nombre = getCell(row, COL.estudiante);
-        const sede   = getCell(row, COL.sede);
-        const hora   = getCell(row, COL.horaRetiro);
-        const recoge = getCell(row, COL.quienRecoge);
-        const jornada= getCell(row, COL.jornada);
+        /* ──────────────────────────────────────────
+           GOOGLE SHEETS — DETECTAR PESTAÑA
+        ────────────────────────────────────────── */
+        async function getSheetTabName() {
+            const res = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}?key=${API_KEY}`);
+            if (!res.ok) {
+                const err = await res.json().catch(() => ({}));
+                if (res.status === 403) throw new Error('Hoja privada: Compartir → "Cualquiera con el enlace" → Lector.');
+                throw new Error(err?.error?.message || `HTTP ${res.status}`);
+            }
+            const meta = await res.json();
+            const sheet = meta.sheets.find(s => String(s.properties.sheetId) === SHEET_GID);
+            if (!sheet) throw new Error(`No existe pestaña con gid=${SHEET_GID}`);
+            return sheet.properties.title;
+        }
 
-        const div = document.createElement('div');
-        div.className = 'card-row';
-        div.innerHTML = `
+        /* ──────────────────────────────────────────
+           CARGAR DATOS SHEETS
+        ────────────────────────────────────────── */
+        async function cargarDatos() {
+            setLoading(true);
+            hideError();
+            try {
+                const tab = await getSheetTabName();
+                const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(tab)}?key=${API_KEY}`;
+                const res = await fetch(url);
+                if (!res.ok) {
+                    const b = await res.json().catch(() => ({}));
+                    const m = b?.error?.message || `HTTP ${res.status}`;
+                    if (res.status === 403) throw new Error('Acceso denegado (403). Hoja debe ser pública.');
+                    throw new Error(m);
+                }
+                const json = await res.json();
+                const values = json.values || [];
+                headerRow = values[0] || [];
+                allRows = values.slice(1) || [];
+
+                poblarSedes();
+                if (!modoTodos) aplicarFiltroSemana();
+                else aplicarFiltros();
+
+                document.getElementById('lastUpdated').textContent =
+                    'Actualizado: ' + new Date().toLocaleTimeString('es-CO');
+                notify('✅ Datos actualizados');
+            } catch (err) {
+                showError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        /* ──────────────────────────────────────────
+           CARGAR ESTUDIANTES DE SUPABASE
+           Intenta primero el proxy Express; si falla
+           consulta la API REST de Supabase directamente.
+        ────────────────────────────────────────── */
+        async function cargarEstudiantesDB() {
+            // Intento 1: servidor Express (localhost:3000)
+            try {
+                const res = await fetch(`${API_BASE}/api/codigos`, { signal: AbortSignal.timeout(3000) });
+                if (res.ok) {
+                    estudiantesDB = await res.json();
+                    console.log(`✅ Estudiantes desde Express: ${estudiantesDB.length}`);
+                    return;
+                }
+            } catch { /* servidor no disponible, intentamos Supabase directo */ }
+
+            // Intento 2: Supabase REST API directamente
+            try {
+                // Obtener credenciales desde el servidor o usar las conocidas
+                let sbUrl = '', sbKey = '';
+                try {
+                    const cfg = await fetch(`${API_BASE}/api/config`, { signal: AbortSignal.timeout(2000) });
+                    if (cfg.ok) { const d = await cfg.json(); sbUrl = d.supabaseUrl; sbKey = d.supabaseKey; }
+                } catch { }
+
+                // Fallback a valores hardcodeados si el servidor tampoco responde
+                if (!sbUrl) sbUrl = 'https://dmgwjnsxmawqtecbkgcf.supabase.co';
+                if (!sbKey) sbKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtZ3dqbnN4bWF3cXRlY2JrZ2NmIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NzM0MjY5NiwiZXhwIjoyMDcyOTE4Njk2fQ.uK7OAmqGCj0njTYrSxS_-nFRM0nr9Poea-i2huWmmQQ';
+
+                const res = await fetch(
+                    `${sbUrl}/rest/v1/Codigos?select=*&order=id.asc`,
+                    { headers: { 'apikey': sbKey, 'Authorization': `Bearer ${sbKey}` } }
+                );
+                if (res.ok) {
+                    estudiantesDB = await res.json();
+                    console.log(`✅ Estudiantes desde Supabase REST: ${estudiantesDB.length}`);
+                }
+            } catch (e) { console.warn('No se pudo cargar estudiantes:', e.message); }
+        }
+
+        function buscarEstudianteDB(nombreFormulario) {
+            if (!nombreFormulario || nombreFormulario === '—') return null;
+            const query = nombreFormulario.toLowerCase().trim();
+            return estudiantesDB.find(e => {
+                const n = (e.Nombre || '').toLowerCase();
+                return n === query || n.includes(query) || query.includes(n.split(' ')[0]);
+            }) || null;
+        }
+
+        /* ──────────────────────────────────────────
+           SEDES
+        ────────────────────────────────────────── */
+        function poblarSedes() {
+            const sel = document.getElementById('filterSede');
+            const cur = sel.value;
+            const sedes = [...new Set(allRows.map(r => getCell(r, COL.sede)).filter(s => s && s !== '—'))].sort();
+            sel.innerHTML = '<option value="">Todas</option>';
+            sedes.forEach(s => { const o = document.createElement('option'); o.value = s; o.textContent = s; sel.appendChild(o); });
+            if (cur) sel.value = cur;
+        }
+
+        /* ──────────────────────────────────────────
+           FILTROS
+        ────────────────────────────────────────── */
+        function aplicarFiltros() {
+            const desde = document.getElementById('filterFechaDesde').value;
+            const hasta = document.getElementById('filterFechaHasta').value;
+            const sede = document.getElementById('filterSede').value.toLowerCase().trim();
+            const nombre = document.getElementById('filterNombre').value.toLowerCase().trim();
+
+            filteredRows = allRows.filter(row => {
+                const f = parseDate(getCell(row, COL.fecha));
+                if (desde && f && f < new Date(desde + 'T00:00:00')) return false;
+                if (hasta && f && f > new Date(hasta + 'T23:59:59')) return false;
+                if (sede && getCell(row, COL.sede).toLowerCase() !== sede) return false;
+                if (nombre && !getCell(row, COL.estudiante).toLowerCase().includes(nombre)) return false;
+                return true;
+            });
+
+            renderCards();
+            actualizarStats();
+        }
+
+        /* ──────────────────────────────────────────
+           RENDER — CARDS (responsive, sin tabla)
+        ────────────────────────────────────────── */
+        function renderCards() {
+            const container = document.getElementById('cardsContainer');
+            const empty = document.getElementById('emptyState');
+            container.innerHTML = '';
+
+            if (filteredRows.length === 0) {
+                empty.classList.remove('hidden');
+                return;
+            }
+            empty.classList.add('hidden');
+
+            filteredRows.forEach((row, idx) => {
+                const globalIdx = allRows.indexOf(row);
+                const tipo = getCell(row, COL.tipoAuth);
+                const fecha = formatFecha(getCell(row, COL.fecha));
+                const nombre = getCell(row, COL.estudiante);
+                const sede = getCell(row, COL.sede);
+                const hora = getCell(row, COL.horaRetiro);
+                const recoge = getCell(row, COL.quienRecoge);
+                const jornada = getCell(row, COL.jornada);
+
+                const div = document.createElement('div');
+                div.className = 'card-row';
+                div.innerHTML = `
             <!-- Fila 1: número + nombre + sede -->
             <div class="flex items-start justify-between gap-2 mb-2">
                 <div class="flex items-center gap-2 min-w-0">
-                    <span class="text-gray-400 text-xs font-mono w-5 flex-shrink-0">${idx+1}</span>
+                    <span class="text-gray-400 text-xs font-mono w-5 flex-shrink-0">${idx + 1}</span>
                     <span class="font-bold text-corporate-blue text-sm leading-tight truncate">${nombre}</span>
                 </div>
                 <span class="badge badge-sede flex-shrink-0">${sede}</span>
             </div>
             <!-- Fila 2: tipo + jornada -->
             <div class="flex flex-wrap items-center gap-1.5 mb-2">
-                <span class="${getTipoClass(tipo)} text-xs">${tipo.length>35?tipo.slice(0,33)+'…':tipo}</span>
-                ${jornada!=='—'?`<span class="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">${jornada}</span>`:''}
+                <span class="${getTipoClass(tipo)} text-xs">${tipo.length > 35 ? tipo.slice(0, 33) + '…' : tipo}</span>
+                ${jornada !== '—' ? `<span class="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">${jornada}</span>` : ''}
             </div>
             <!-- Fila 3: fecha + hora -->
             <div class="flex flex-wrap gap-x-4 gap-y-0.5 text-xs text-gray-500 mb-3">
                 <span>🕐 ${fecha}</span>
-                ${hora!=='—'?`<span>⏰ Retiro: ${hora}</span>`:''}
-                ${recoge!=='—'?`<span>👤 ${recoge}</span>`:''}
+                ${hora !== '—' ? `<span>⏰ Retiro: ${hora}</span>` : ''}
+                ${recoge !== '—' ? `<span>👤 ${recoge}</span>` : ''}
             </div>
             <!-- Botones -->
             <div class="flex gap-2 flex-wrap">
@@ -646,35 +930,35 @@ function renderCards() {
             </div>
             <!-- Panel info sistema (expandible en la card) -->
             <div id="infoPanel-${globalIdx}" class="hidden mt-3 student-info-box rounded-lg p-3 text-xs"></div>`;
-        container.appendChild(div);
-    });
-}
+                container.appendChild(div);
+            });
+        }
 
-/* ──────────────────────────────────────────
-   CONSULTAR ESTUDIANTE EN SUPABASE (inline)
-────────────────────────────────────────── */
-async function consultarEstudiante(rowIdx, btn) {
-    const row      = allRows[rowIdx];
-    const panelId  = `infoPanel-${rowIdx}`;
-    const panel    = document.getElementById(panelId);
+        /* ──────────────────────────────────────────
+           CONSULTAR ESTUDIANTE EN SUPABASE (inline)
+        ────────────────────────────────────────── */
+        async function consultarEstudiante(rowIdx, btn) {
+            const row = allRows[rowIdx];
+            const panelId = `infoPanel-${rowIdx}`;
+            const panel = document.getElementById(panelId);
 
-    // Toggle
-    if (!panel.classList.contains('hidden')) {
-        panel.classList.add('hidden');
-        btn.textContent = '🔍 Info sistema';
-        return;
-    }
+            // Toggle
+            if (!panel.classList.contains('hidden')) {
+                panel.classList.add('hidden');
+                btn.textContent = '🔍 Info sistema';
+                return;
+            }
 
-    btn.textContent = '⌛ Buscando...';
-    btn.disabled = true;
-    panel.classList.remove('hidden');
-    panel.innerHTML = '<div class="info-loading"><div class="info-spinner"></div> Buscando en el sistema...</div>';
+            btn.textContent = '⌛ Buscando...';
+            btn.disabled = true;
+            panel.classList.remove('hidden');
+            panel.innerHTML = '<div class="info-loading"><div class="info-spinner"></div> Buscando en el sistema...</div>';
 
-    const nombreFormulario = getCell(row, COL.estudiante);
-    const est = buscarEstudianteDB(nombreFormulario);
+            const nombreFormulario = getCell(row, COL.estudiante);
+            const est = buscarEstudianteDB(nombreFormulario);
 
-    if (est) {
-        panel.innerHTML = `
+            if (est) {
+                panel.innerHTML = `
             <p class="font-bold text-blue-700 mb-1">✅ Encontrado en el sistema</p>
             <div class="grid grid-cols-2 gap-x-4 gap-y-1">
                 <div><span class="font-semibold text-gray-600">Nombre:</span> ${est.Nombre}</div>
@@ -682,248 +966,259 @@ async function consultarEstudiante(rowIdx, btn) {
                 <div><span class="font-semibold text-gray-600">Docente:</span> ${est.Docente || '—'}</div>
                 <div><span class="font-semibold text-gray-600">Encargado:</span> ${est.Encargado || '—'}</div>
             </div>`;
-    } else if (estudiantesDB.length === 0) {
-        panel.innerHTML = `<p class="text-orange-600">⚠️ Sin conexión al servidor. Abre la app desde <strong>localhost:3000</strong> para consultar el sistema.</p>`;
-    } else {
-        panel.innerHTML = `<p class="text-gray-500">❌ No se encontró "<strong>${nombreFormulario}</strong>" en el sistema. Verifica el nombre en el formulario.</p>`;
-    }
+            } else if (estudiantesDB.length === 0) {
+                panel.innerHTML = `<p class="text-orange-600">⚠️ Sin conexión al servidor. Abre la app desde <strong>localhost:3000</strong> para consultar el sistema.</p>`;
+            } else {
+                panel.innerHTML = `<p class="text-gray-500">❌ No se encontró "<strong>${nombreFormulario}</strong>" en el sistema. Verifica el nombre en el formulario.</p>`;
+            }
 
-    btn.textContent = '🔍 Info sistema';
-    btn.disabled = false;
-}
+            btn.textContent = '🔍 Info sistema';
+            btn.disabled = false;
+        }
 
-/* ──────────────────────────────────────────
-   CONSTRUIR TEXTO DE UN REGISTRO
-────────────────────────────────────────── */
-function buildTextoRegistro(row, idx) {
-    const nombre    = getCell(row, COL.estudiante);
-    const est       = buscarEstudianteDB(nombre);
-    const fecha     = formatFecha(getCell(row, COL.fecha));
-    const sede      = getCell(row, COL.sede);
-    const jornada   = getCell(row, COL.jornada);
-    const tipo      = getCell(row, COL.tipoAuth);
-    const hora      = getCell(row, COL.horaRetiro);
-    const motivo    = getCell(row, COL.motivo);
-    const acudiente = getCell(row, COL.acudiente);
-    const recoge    = getCell(row, COL.quienRecoge);
-    const docRecoge = getCell(row, COL.docRecoge);
-    const parent    = getCell(row, COL.parentescoRecoge);
-    const contacto  = getCell(row, COL.contactoAutorizada);
+        /* ──────────────────────────────────────────
+           CONSTRUIR TEXTO DE UN REGISTRO
+        ────────────────────────────────────────── */
+        function buildTextoRegistro(row, idx) {
+            const nombre = getCell(row, COL.estudiante);
+            const est = buscarEstudianteDB(nombre);
+            const fecha = formatFecha(getCell(row, COL.fecha));
+            const sede = getCell(row, COL.sede);
+            const jornada = getCell(row, COL.jornada);
+            const tipo = getCell(row, COL.tipoAuth);
+            const hora = getCell(row, COL.horaRetiro);
+            const motivo = getCell(row, COL.motivo);
+            const acudiente = getCell(row, COL.acudiente);
+            const recoge = getCell(row, COL.quienRecoge);
+            const docRecoge = getCell(row, COL.docRecoge);
+            const parent = getCell(row, COL.parentescoRecoge);
+            const contacto = getCell(row, COL.contactoAutorizada);
 
-    const num = idx != null ? `#${idx+1} ` : '';
-    return [
-        `${num}*${nombre}*`,
-        ...(est ? [`🔑 Código: ${est.Codigo} | Docente: ${est.Docente||'—'}`] : []),
-        `🏫 Sede: ${sede} | Jornada: ${jornada}`,
-        `📅 Solicitud: ${fecha}`,
-        `⏰ Hora retiro: ${hora}`,
-        `📋 Tipo: ${tipo}`,
-        `💬 Motivo: ${motivo}`,
-        `👨‍👩‍👦 Acudiente: ${acudiente}`,
-        `🚶 Quien recoge: ${recoge} (${parent})`,
-        `📄 Doc: ${docRecoge} | 📞 ${contacto}`,
-    ].join('\n');
-}
+            const num = idx != null ? `#${idx + 1} ` : '';
+            return [
+                `${num}*${nombre}*`,
+                ...(est ? [`🔑 Código: ${est.Codigo} | Docente: ${est.Docente || '—'}`] : []),
+                `🏫 Sede: ${sede} | Jornada: ${jornada}`,
+                `📅 Solicitud: ${fecha}`,
+                `⏰ Hora retiro: ${hora}`,
+                `📋 Tipo: ${tipo}`,
+                `💬 Motivo: ${motivo}`,
+                `👨‍👩‍👦 Acudiente: ${acudiente}`,
+                `🚶 Quien recoge: ${recoge} (${parent})`,
+                `📄 Doc: ${docRecoge} | 📞 ${contacto}`,
+            ].join('\n');
+        }
 
-/* ──────────────────────────────────────────
-   COPIAR UN REGISTRO AL PORTAPAPELES
-────────────────────────────────────────── */
-async function copiarRegistro(rowIdx, btn) {
-    const row = allRows[rowIdx];
-    if (!row) return;
-    const texto = buildTextoRegistro(row, null);
-    try {
-        await navigator.clipboard.writeText(texto);
-        const orig = btn.textContent;
-        btn.textContent = '✅ ¡Copiado!';
-        btn.classList.add('bg-emerald-700');
-        setTimeout(()=>{ btn.textContent = orig; btn.classList.remove('bg-emerald-700'); }, 2000);
-        notify('📋 Registro copiado');
-    } catch {
-        // Fallback para dispositivos sin clipboard API
-        const ta = document.createElement('textarea');
-        ta.value = texto;
-        ta.style.position = 'fixed'; ta.style.opacity = '0';
-        document.body.appendChild(ta); ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        notify('📋 Copiado');
-    }
-}
+        /* ──────────────────────────────────────────
+           COPIAR UN REGISTRO AL PORTAPAPELES
+        ────────────────────────────────────────── */
+        async function copiarRegistro(rowIdx, btn) {
+            const row = allRows[rowIdx];
+            if (!row) return;
+            const texto = buildTextoRegistro(row, null);
+            try {
+                await navigator.clipboard.writeText(texto);
+                const orig = btn.textContent;
+                btn.textContent = '✅ ¡Copiado!';
+                btn.classList.add('bg-emerald-700');
+                setTimeout(() => { btn.textContent = orig; btn.classList.remove('bg-emerald-700'); }, 2000);
+                notify('📋 Registro copiado');
+            } catch {
+                // Fallback para dispositivos sin clipboard API
+                const ta = document.createElement('textarea');
+                ta.value = texto;
+                ta.style.position = 'fixed'; ta.style.opacity = '0';
+                document.body.appendChild(ta); ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                notify('📋 Copiado');
+            }
+        }
 
-/* ──────────────────────────────────────────
-   COPIAR TODOS LOS REGISTROS FILTRADOS
-────────────────────────────────────────── */
-async function copiarTodos() {
-    if (filteredRows.length === 0) { notify('⚠️ No hay registros en el filtro actual', '#d97706'); return; }
-    const fecha = new Date().toLocaleDateString('es-CO',{weekday:'long',day:'numeric',month:'long'});
-    const header = `📋 *SALIDAS ANTICIPADAS — ${fecha.toUpperCase()}*\n` +
-                   `_${filteredRows.length} registro(s)_\n` + '─'.repeat(35);
-    const bloques = filteredRows.map((row,i) => buildTextoRegistro(row, i)).join('\n\n' + '─'.repeat(35) + '\n\n');
-    const texto = header + '\n\n' + bloques;
-    try {
-        await navigator.clipboard.writeText(texto);
-        notify(`✅ ${filteredRows.length} registros copiados al portapapeles`, '#059669');
-    } catch {
-        const ta = document.createElement('textarea');
-        ta.value = texto; ta.style.position='fixed'; ta.style.opacity='0';
-        document.body.appendChild(ta); ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        notify(`✅ ${filteredRows.length} registros copiados`, '#059669');
-    }
-}
+        /* ──────────────────────────────────────────
+           COPIAR TODOS LOS REGISTROS FILTRADOS
+        ────────────────────────────────────────── */
+        async function copiarTodos() {
+            if (filteredRows.length === 0) { notify('⚠️ No hay registros en el filtro actual', '#d97706'); return; }
+            const fecha = new Date().toLocaleDateString('es-CO', { weekday: 'long', day: 'numeric', month: 'long' });
+            const header = `📋 *SALIDAS ANTICIPADAS — ${fecha.toUpperCase()}*\n` +
+                `_${filteredRows.length} registro(s)_\n` + '─'.repeat(35);
+            const bloques = filteredRows.map((row, i) => buildTextoRegistro(row, i)).join('\n\n' + '─'.repeat(35) + '\n\n');
+            const texto = header + '\n\n' + bloques;
+            try {
+                await navigator.clipboard.writeText(texto);
+                notify(`✅ ${filteredRows.length} registros copiados al portapapeles`, '#059669');
+            } catch {
+                const ta = document.createElement('textarea');
+                ta.value = texto; ta.style.position = 'fixed'; ta.style.opacity = '0';
+                document.body.appendChild(ta); ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                notify(`✅ ${filteredRows.length} registros copiados`, '#059669');
+            }
+        }
 
-/* ──────────────────────────────────────────
-   MODAL DETALLE COMPLETO
-────────────────────────────────────────── */
-async function abrirModal(rowIdx) {
-    const row = allRows[rowIdx];
-    if (!row) return;
-    currentModalRowIdx = rowIdx;
+        /* ──────────────────────────────────────────
+           MODAL DETALLE COMPLETO
+        ────────────────────────────────────────── */
+        async function abrirModal(rowIdx) {
+            const row = allRows[rowIdx];
+            if (!row) return;
+            currentModalRowIdx = rowIdx;
 
-    // Secciones del formulario
-    const secciones = [
-        { title:'👤 Estudiante', fields:[
-            ['Nombre', getCell(row,COL.estudiante)],
-            ['Tipo autorización', getCell(row,COL.tipoAuth)],
-            ['Hora retiro', getCell(row,COL.horaRetiro)],
-            ['Motivo', getCell(row,COL.motivo)],
-            ['Sede', getCell(row,COL.sede)],
-            ['Jornada', getCell(row,COL.jornada)],
-        ]},
-        { title:'👨‍👩‍👦 Acudiente', fields:[
-            ['Nombre', getCell(row,COL.acudiente)],
-            ['Documento', getCell(row,COL.docAcudiente)],
-            ['Fecha solicitud', formatFecha(getCell(row,COL.fecha))],
-        ]},
-        { title:'🚶 Quien recoge', fields:[
-            ['Nombre', getCell(row,COL.quienRecoge)],
-            ['Documento', getCell(row,COL.docRecoge)],
-            ['Parentesco', getCell(row,COL.parentescoRecoge)],
-        ]},
-        { title:'✅ Persona autorizada', fields:[
-            ['Nombre', getCell(row,COL.persAutorizada)],
-            ['Documento', getCell(row,COL.docAutorizada)],
-            ['Contacto', getCell(row,COL.contactoAutorizada)],
-            ['Parentesco', getCell(row,COL.parentescoAutorizada)],
-        ]},
-        ...(getCell(row,COL.medicamento)!=='—' ? [{ title:'💊 Medicamento', fields:[
-            ['Medicamento', getCell(row,COL.medicamento)],
-            ['Dosis', getCell(row,COL.dosis)],
-            ['Motivo', getCell(row,COL.motivoMed)],
-            ['Indicaciones', getCell(row,COL.indicaciones)],
-        ]}] : []),
-    ];
+            // Secciones del formulario
+            const secciones = [
+                {
+                    title: '👤 Estudiante', fields: [
+                        ['Nombre', getCell(row, COL.estudiante)],
+                        ['Tipo autorización', getCell(row, COL.tipoAuth)],
+                        ['Hora retiro', getCell(row, COL.horaRetiro)],
+                        ['Motivo', getCell(row, COL.motivo)],
+                        ['Sede', getCell(row, COL.sede)],
+                        ['Jornada', getCell(row, COL.jornada)],
+                    ]
+                },
+                {
+                    title: '👨‍👩‍👦 Acudiente', fields: [
+                        ['Nombre', getCell(row, COL.acudiente)],
+                        ['Documento', getCell(row, COL.docAcudiente)],
+                        ['Fecha solicitud', formatFecha(getCell(row, COL.fecha))],
+                    ]
+                },
+                {
+                    title: '🚶 Quien recoge', fields: [
+                        ['Nombre', getCell(row, COL.quienRecoge)],
+                        ['Documento', getCell(row, COL.docRecoge)],
+                        ['Parentesco', getCell(row, COL.parentescoRecoge)],
+                    ]
+                },
+                {
+                    title: '✅ Persona autorizada', fields: [
+                        ['Nombre', getCell(row, COL.persAutorizada)],
+                        ['Documento', getCell(row, COL.docAutorizada)],
+                        ['Contacto', getCell(row, COL.contactoAutorizada)],
+                        ['Parentesco', getCell(row, COL.parentescoAutorizada)],
+                    ]
+                },
+                ...(getCell(row, COL.medicamento) !== '—' ? [{
+                    title: '💊 Medicamento', fields: [
+                        ['Medicamento', getCell(row, COL.medicamento)],
+                        ['Dosis', getCell(row, COL.dosis)],
+                        ['Motivo', getCell(row, COL.motivoMed)],
+                        ['Indicaciones', getCell(row, COL.indicaciones)],
+                    ]
+                }] : []),
+            ];
 
-    let html = '';
-    secciones.forEach(sec => {
-        html += `<div class="modal-section rounded-xl p-3">
+            let html = '';
+            secciones.forEach(sec => {
+                html += `<div class="modal-section rounded-xl p-3">
             <h4 class="font-bold text-corporate-blue mb-2 text-xs uppercase tracking-wide">${sec.title}</h4>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">`;
-        sec.fields.forEach(([lbl,val])=>{
-            html += `<div><p class="modal-label">${lbl}</p><p class="text-sm mt-0.5 break-words">${val}</p></div>`;
-        });
-        html += `</div></div>`;
-    });
+                sec.fields.forEach(([lbl, val]) => {
+                    html += `<div><p class="modal-label">${lbl}</p><p class="text-sm mt-0.5 break-words">${val}</p></div>`;
+                });
+                html += `</div></div>`;
+            });
 
-    document.getElementById('modalContent').innerHTML = html;
+            document.getElementById('modalContent').innerHTML = html;
 
-    // Buscar info del estudiante en el sistema
-    const sib  = document.getElementById('studentInfoBox');
-    const sibc = document.getElementById('studentInfoContent');
-    sib.classList.remove('hidden');
-    sibc.innerHTML = '<div class="info-loading"><div class="info-spinner"></div> Buscando en el sistema...</div>';
+            // Buscar info del estudiante en el sistema
+            const sib = document.getElementById('studentInfoBox');
+            const sibc = document.getElementById('studentInfoContent');
+            sib.classList.remove('hidden');
+            sibc.innerHTML = '<div class="info-loading"><div class="info-spinner"></div> Buscando en el sistema...</div>';
 
-    const nombre = getCell(row, COL.estudiante);
-    const est    = buscarEstudianteDB(nombre);
+            const nombre = getCell(row, COL.estudiante);
+            const est = buscarEstudianteDB(nombre);
 
-    if (est) {
-        sibc.innerHTML = `<div class="grid grid-cols-2 gap-x-4 gap-y-0.5 text-xs">
+            if (est) {
+                sibc.innerHTML = `<div class="grid grid-cols-2 gap-x-4 gap-y-0.5 text-xs">
             <div><span class="font-semibold text-blue-700">Nombre:</span> ${est.Nombre}</div>
             <div><span class="font-semibold text-blue-700">Código:</span> <strong class="text-corporate-blue">${est.Codigo}</strong></div>
-            <div><span class="font-semibold text-blue-700">Docente:</span> ${est.Docente||'—'}</div>
-            <div><span class="font-semibold text-blue-700">Encargado:</span> ${est.Encargado||'—'}</div>
+            <div><span class="font-semibold text-blue-700">Docente:</span> ${est.Docente || '—'}</div>
+            <div><span class="font-semibold text-blue-700">Encargado:</span> ${est.Encargado || '—'}</div>
         </div>`;
-    } else if (estudiantesDB.length===0) {
-        sibc.innerHTML = `<p class="text-xs text-orange-600">⚠️ Sin conexión al servidor Express (localhost:3000).</p>`;
-    } else {
-        sibc.innerHTML = `<p class="text-xs text-gray-500">❌ "${nombre}" no encontrado en el sistema.</p>`;
-    }
+            } else if (estudiantesDB.length === 0) {
+                sibc.innerHTML = `<p class="text-xs text-orange-600">⚠️ Sin conexión al servidor Express (localhost:3000).</p>`;
+            } else {
+                sibc.innerHTML = `<p class="text-xs text-gray-500">❌ "${nombre}" no encontrado en el sistema.</p>`;
+            }
 
-    document.getElementById('detailModal').classList.add('open');
-    document.body.style.overflow = 'hidden';
-}
+            document.getElementById('detailModal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
 
-function cerrarModal() {
-    document.getElementById('detailModal').classList.remove('open');
-    document.body.style.overflow = '';
-    currentModalRowIdx = -1;
-}
+        function cerrarModal() {
+            document.getElementById('detailModal').classList.remove('open');
+            document.body.style.overflow = '';
+            currentModalRowIdx = -1;
+        }
 
-document.getElementById('detailModal').addEventListener('click', function(e) {
-    if (e.target===this) cerrarModal();
-});
-document.addEventListener('keydown', e => { if(e.key==='Escape') cerrarModal(); });
+        document.getElementById('detailModal').addEventListener('click', function (e) {
+            if (e.target === this) cerrarModal();
+        });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarModal(); });
 
-/* ──────────────────────────────────────────
-   STATS
-────────────────────────────────────────── */
-function actualizarStats() {
-    const hoy = new Date().toLocaleDateString('es-CO',{day:'2-digit',month:'2-digit',year:'numeric'});
-    const hoyCount = allRows.filter(r=>{
-        const f = parseDate(getCell(r,COL.fecha));
-        return f && f.toLocaleDateString('es-CO',{day:'2-digit',month:'2-digit',year:'numeric'})===hoy;
-    }).length;
-    const sedes = new Set(allRows.map(r=>getCell(r,COL.sede)).filter(s=>s&&s!=='—'));
-    document.getElementById('statTotal').textContent    = allRows.length;
-    document.getElementById('statHoy').textContent      = hoyCount;
-    document.getElementById('statFiltrados').textContent = filteredRows.length;
-    document.getElementById('statSedes').textContent    = sedes.size;
-}
+        /* ──────────────────────────────────────────
+           STATS
+        ────────────────────────────────────────── */
+        function actualizarStats() {
+            const hoy = new Date().toLocaleDateString('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            const hoyCount = allRows.filter(r => {
+                const f = parseDate(getCell(r, COL.fecha));
+                return f && f.toLocaleDateString('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric' }) === hoy;
+            }).length;
+            const sedes = new Set(allRows.map(r => getCell(r, COL.sede)).filter(s => s && s !== '—'));
+            document.getElementById('statTotal').textContent = allRows.length;
+            document.getElementById('statHoy').textContent = hoyCount;
+            document.getElementById('statFiltrados').textContent = filteredRows.length;
+            document.getElementById('statSedes').textContent = sedes.size;
+        }
 
-/* ──────────────────────────────────────────
-   LOADING / ERROR
-────────────────────────────────────────── */
-function setLoading(on) {
-    const s   = document.getElementById('loadingSpinner');
-    const btn = document.getElementById('btnRefresh');
-    const ico = document.getElementById('refreshIcon');
-    if(on){ s.classList.remove('hidden'); btn.disabled=true; btn.classList.add('opacity-60','cursor-not-allowed'); ico.style.animation='spin .8s linear infinite'; }
-    else  { s.classList.add('hidden');   btn.disabled=false; btn.classList.remove('opacity-60','cursor-not-allowed'); ico.style.animation=''; }
-}
-function showError(msg) {
-    document.getElementById('errorMsg').classList.remove('hidden');
-    document.getElementById('errorDetail').textContent = msg;
-}
-function hideError() { document.getElementById('errorMsg').classList.add('hidden'); }
+        /* ──────────────────────────────────────────
+           LOADING / ERROR
+        ────────────────────────────────────────── */
+        function setLoading(on) {
+            const s = document.getElementById('loadingSpinner');
+            const btn = document.getElementById('btnRefresh');
+            const ico = document.getElementById('refreshIcon');
+            if (on) { s.classList.remove('hidden'); btn.disabled = true; btn.classList.add('opacity-60', 'cursor-not-allowed'); ico.style.animation = 'spin .8s linear infinite'; }
+            else { s.classList.add('hidden'); btn.disabled = false; btn.classList.remove('opacity-60', 'cursor-not-allowed'); ico.style.animation = ''; }
+        }
+        function showError(msg) {
+            document.getElementById('errorMsg').classList.remove('hidden');
+            document.getElementById('errorDetail').textContent = msg;
+        }
+        function hideError() { document.getElementById('errorMsg').classList.add('hidden'); }
 
-/* ──────────────────────────────────────────
-   THEME
-────────────────────────────────────────── */
-function setTheme(dark) {
-    const icon = document.getElementById('themeIcon');
-    if(dark){
-        document.body.classList.add('theme-dark');
-        icon.innerHTML='<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>';
-        localStorage.setItem('theme','dark');
-    } else {
-        document.body.classList.remove('theme-dark');
-        icon.innerHTML='<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>';
-        localStorage.setItem('theme','light');
-    }
-}
-document.getElementById('toggleTheme').addEventListener('click',()=>setTheme(!document.body.classList.contains('theme-dark')));
-document.getElementById('mobileMenuBtn').addEventListener('click',()=>document.getElementById('mobileMenu').classList.toggle('hidden'));
+        /* ──────────────────────────────────────────
+           THEME
+        ────────────────────────────────────────── */
+        function setTheme(dark) {
+            const icon = document.getElementById('themeIcon');
+            if (dark) {
+                document.body.classList.add('theme-dark');
+                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.body.classList.remove('theme-dark');
+                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+        document.getElementById('toggleTheme').addEventListener('click', () => setTheme(!document.body.classList.contains('theme-dark')));
+        document.getElementById('mobileMenuBtn').addEventListener('click', () => document.getElementById('mobileMenu').classList.toggle('hidden'));
 
-/* ──────────────────────────────────────────
-   INIT
-────────────────────────────────────────── */
-document.getElementById('year').textContent = new Date().getFullYear();
-if(localStorage.getItem('theme')==='dark') setTheme(true);
-actualizarBanner();
-cargarEstudiantesDB();   // carga estudiantes de Supabase en segundo plano
-cargarDatos();           // carga Google Sheets y aplica filtro de semana
-</script>
+        /* ──────────────────────────────────────────
+           INIT
+        ────────────────────────────────────────── */
+        document.getElementById('year').textContent = new Date().getFullYear();
+        if (localStorage.getItem('theme') === 'dark') setTheme(true);
+        actualizarBanner();
+        cargarEstudiantesDB();   // carga estudiantes de Supabase en segundo plano
+        cargarDatos();           // carga Google Sheets y aplica filtro de semana
+    </script>
 </body>
+
 </html>
