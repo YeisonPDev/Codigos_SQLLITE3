@@ -32,148 +32,8 @@
             }
         }
     </script>
-    <style>
-        /* Estilos personalizados */
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-
-        .theme-dark {
-            background-color: #1a1a2e;
-            color: #eee;
-        }
-
-        .theme-dark .card-custom {
-            background-color: #16213e;
-            border-color: #0f3460;
-        }
-
-        .theme-dark .input-custom {
-            background-color: #0f3460;
-            color: #eee;
-            border-color: #1a1a2e;
-        }
-
-        .theme-dark .nav-custom {
-            background-color: #0f3460;
-            border-color: #1a1a2e;
-        }
-
-        .theme-dark .list-item-custom {
-            background-color: #16213e;
-            border-color: #0f3460;
-        }
-
-        .theme-dark .list-item-custom:hover {
-            background-color: #1a1a2e;
-        }
-
-        .theme-dark .footer-custom {
-            background-color: #0f1419;
-        }
-
-        .notification {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            left: 1rem;
-            background: #1E3A8A;
-            color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            display: none;
-            z-index: 9999;
-            animation: slideIn 0.3s ease-out;
-            text-align: center;
-            font-size: 0.875rem;
-        }
-
-        @media (min-width: 640px) {
-            .notification {
-                top: 20px;
-                right: 20px;
-                left: auto;
-                font-size: 1rem;
-            }
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateX(400px);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        #copyArea {
-            position: absolute;
-            left: -9999px;
-        }
-
-        .footer-custom {
-            background: #111827;
-        }
-
-        .card-shadow {
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-        }
-
-        .card-shadow:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-        }
-
-        .theme-toggle-btn {
-            position: fixed;
-            bottom: 1rem;
-            right: 1rem;
-            z-index: 1000;
-        }
-
-        @media (min-width: 640px) {
-            .theme-toggle-btn {
-                bottom: 2rem;
-                right: 2rem;
-            }
-        }
-
-        .nav-shadow {
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
-        }
-
-        @keyframes float-blue {
-
-            0%,
-            100% {
-                transform: translateY(0px) scale(1);
-                filter: brightness(1) hue-rotate(0deg);
-            }
-
-            25% {
-                transform: translateY(-10px) scale(1.05);
-                filter: brightness(1.1) hue-rotate(5deg);
-            }
-
-            50% {
-                transform: translateY(-5px) scale(1.02);
-                filter: brightness(1.2) hue-rotate(10deg);
-            }
-
-            75% {
-                transform: translateY(-15px) scale(1.03);
-                filter: brightness(1.1) hue-rotate(5deg);
-            }
-        }
-
-        .animate-float-blue {
-            animation: float-blue 3s ease-in-out infinite;
-        }
-    </style>
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="css/index.css">
 </head>
 
 <body class="bg-gray-50 min-h-screen flex flex-col">
@@ -245,6 +105,19 @@
             <input type="text" id="searchBox"
                 class="input-custom w-full px-4 sm:px-6 py-3 sm:py-4 text-base sm:text-lg border-2 border-corporate-blue rounded-xl focus:outline-none focus:ring-4 focus:ring-corporate-skyblue focus:border-transparent transition-all shadow-md"
                 placeholder="🔍 Escribe el nombre o código...">
+        </div>
+
+        <!-- Selector de sedes (generado dinámicamente desde la base de datos) -->
+        <div class="mb-4 md:mb-6">
+            <label class="block text-base sm:text-lg font-semibold mb-2 text-corporate-blue">
+                Sede de búsqueda:
+            </label>
+            <div id="sedeSelector" class="flex flex-wrap gap-2">
+                <span class="text-sm text-gray-500">Cargando sedes…</span>
+            </div>
+            <div id="sedeBanner"
+                class="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-xl text-white font-bold text-sm sm:text-base shadow-sm">
+            </div>
         </div>
 
         <div id="result" class="mb-6"></div>
@@ -410,22 +283,125 @@
             setTheme(true);
         }
 
+        /* ══════════════ SEDES ══════════════
+           Las sedes NO están escritas en el código: se consultan
+           en /api/sedes, que las descubre en la base de datos.
+           "TODAS" es sólo un filtro, nunca se guarda en un estudiante. */
+        const TODAS_SEDES = "__TODAS__";
+
+        // Paleta categórica profesional (misma familia tonal en toda la app,
+        // en vez de colores primarios puros mezclados sin criterio).
+        // Cíclica: funciona con cualquier cantidad de sedes.
+        const PALETA_SEDES = [
+            "#2a78d6", // azul
+            "#eb6834", // naranja
+            "#1baf7a", // verde agua
+            "#eda100", // dorado
+            "#e87ba4", // magenta suave
+            "#008300", // verde
+            "#e34948", // rojo
+        ];
+        // Violeta queda reservado sólo para TODAS: nunca se repite en una sede.
+        const COLOR_TODAS = "#4a3aa7";
+
+        let sedesDisponibles = [];
+        let sedeActual = TODAS_SEDES;   // Al abrir la app siempre arranca en TODAS
+
+        // El color se deduce de la posición de la sede en la lista de la base,
+        // ignorando mayúsculas: así "Merced" y "merced" comparten distintivo.
+        function colorSede(sede) {
+            if (!sede || sede === TODAS_SEDES) return COLOR_TODAS;
+            const clave = String(sede).toLowerCase();
+            const i = sedesDisponibles.findIndex(s => String(s).toLowerCase() === clave);
+            return PALETA_SEDES[(i < 0 ? sedesDisponibles.length : i) % PALETA_SEDES.length];
+        }
+
+        function etiquetaSede(sede) {
+            return sede === TODAS_SEDES ? "TODAS" : String(sede).toUpperCase();
+        }
+
+        async function cargarSedes() {
+            try {
+                const res = await fetch(`${API_BASE}/api/sedes`);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const data = await res.json();
+                sedesDisponibles = Array.isArray(data) ? data : [];
+            } catch (error) {
+                console.error("❌ Error cargando sedes:", error);
+                sedesDisponibles = [];
+            }
+            renderSedeSelector();
+        }
+
+        function renderSedeSelector() {
+            const cont = document.getElementById("sedeSelector");
+            cont.innerHTML = "";
+
+            // Una pastilla por cada sede de la base + la opción TODAS al final
+            [...sedesDisponibles, TODAS_SEDES].forEach(sede => {
+                const activa = sede === sedeActual;
+
+                const btn = document.createElement("button");
+                btn.type = "button";
+                btn.className = "sede-pill" + (activa ? " activa" : "");
+                btn.style.setProperty("--sede-color", colorSede(sede));
+                btn.innerHTML = `<span class="sede-dot"></span>${etiquetaSede(sede)}` +
+                    (activa ? ' <span aria-hidden="true">✓</span>' : "");
+                btn.onclick = () => seleccionarSede(sede);
+
+                cont.appendChild(btn);
+            });
+
+            actualizarBannerSede();
+        }
+
+        function actualizarBannerSede() {
+            const banner = document.getElementById("sedeBanner");
+            banner.style.background = colorSede(sedeActual);
+            banner.innerHTML = '<span class="sede-dot sede-dot--claro"></span>CONSULTANDO: ' +
+                (sedeActual === TODAS_SEDES ? "TODAS LAS SEDES" : etiquetaSede(sedeActual));
+        }
+
+        async function seleccionarSede(sede) {
+            sedeActual = sede;
+            renderSedeSelector();
+            await cargarEstudiantes();
+            // Repetir la búsqueda actual con el nuevo filtro de sede
+            searchBox.dispatchEvent(new Event("input"));
+        }
+
         // Datos cargados desde la base
         let estudiantes = [];
+        const cacheEstudiantes = new Map(); // sede -> registros
 
         async function cargarEstudiantes() {
+            const clave = sedeActual;
+
+            if (cacheEstudiantes.has(clave)) {
+                estudiantes = cacheEstudiantes.get(clave);
+                return;
+            }
+
             try {
-                const res = await fetch(`${API_BASE}/api/codigos`);
-                estudiantes = await res.json();
-                console.log("✅ Estudiantes cargados desde Supabase:", estudiantes);
+                // Sede específica -> el servidor filtra con  WHERE Sede = '...'
+                const url = clave === TODAS_SEDES
+                    ? `${API_BASE}/api/codigos`
+                    : `${API_BASE}/api/codigos?sede=${encodeURIComponent(clave)}`;
+
+                const res = await fetch(url);
+                const data = await res.json();
+                estudiantes = Array.isArray(data) ? data : [];
+                cacheEstudiantes.set(clave, estudiantes);
+                console.log(`✅ Estudiantes cargados (${etiquetaSede(clave)}):`, estudiantes.length);
             } catch (error) {
+                estudiantes = [];
                 console.error("❌ Error cargando estudiantes:", error);
             }
         }
-        cargarEstudiantes();
 
         let listaSeleccion = [];
         let currentListType = "pie";
+        let secuenciaManual = 0;
 
         const searchBox = document.getElementById("searchBox");
         const resultDiv = document.getElementById("result");
@@ -456,18 +432,25 @@
             resultDiv.innerHTML = "";
 
             if (termino.length > 0) {
+                // `estudiantes` ya viene filtrado por sede desde el servidor
                 const encontrados = estudiantes.filter(e =>
-                    e.Nombre.toLowerCase().includes(termino) ||
-                    e.Codigo.toString().includes(termino)
+                    (e.Nombre || "").toLowerCase().includes(termino) ||
+                    String(e.Codigo ?? "").includes(termino)
                 );
 
                 if (encontrados.length > 0) {
                     let html = '<div class="space-y-2">';
+                    if (sedeActual === TODAS_SEDES && encontrados.length > 1) {
+                        html += `<p class="text-xs sm:text-sm text-gray-500 mb-1">${encontrados.length} resultados encontrados en todas las sedes</p>`;
+                    }
                     encontrados.forEach(est => {
+                        const nombreSede = est.Sede ? etiquetaSede(est.Sede) : "SIN SEDE";
+                        const colorChip = est.Sede ? colorSede(est.Sede) : "#6B7280";
                         html += `
                         <label class="list-item-custom flex items-start sm:items-center p-3 sm:p-4 bg-white border-2 border-gray-200 rounded-xl cursor-pointer hover:border-corporate-blue hover:bg-blue-50 transition-all">
-                            <input type="checkbox" class="w-5 h-5 text-corporate-blue rounded focus:ring-corporate-blue mr-3 mt-0.5 sm:mt-0 flex-shrink-0" id="est-${est.Codigo}" onchange="agregarALista('${est.Codigo}')">
+                            <input type="checkbox" class="w-5 h-5 text-corporate-blue rounded focus:ring-corporate-blue mr-3 mt-0.5 sm:mt-0 flex-shrink-0" id="est-${est.id}" onchange="agregarALista('${est.id}')">
                             <span class="flex-1 text-sm sm:text-base">
+                                <span class="badge-sede-card mb-1" style="--sede-color:${colorChip}"><span class="sede-dot sede-dot--claro"></span>${nombreSede}</span>
                                 <strong class="text-corporate-blue block sm:inline">${est.Nombre}</strong>
                                 <span class="text-gray-600 text-xs sm:text-sm block sm:inline"> - Código: ${est.Codigo}</span>
                                 <span class="text-gray-600 text-xs sm:text-sm block sm:inline"> - Docente: ${est.Docente}</span>
@@ -482,11 +465,16 @@
             }
         });
 
-        function agregarALista(codigo) {
-            const estudiante = estudiantes.find(e => e.Codigo == codigo);
-            if (estudiante && !listaSeleccion.some(item => item.Codigo == codigo && item.tipo === currentListType)) {
-                listaSeleccion.push({ ...estudiante, tipo: currentListType, manual: false });
-                actualizarLista();
+        // El identificador único es el registro completo (código + sede),
+        // por eso se usa el id de la fila y no el código a secas.
+        function agregarALista(id) {
+            const estudiante = estudiantes.find(e => String(e.id) === String(id));
+            if (estudiante) {
+                const uid = `db-${estudiante.id}`;
+                if (!listaSeleccion.some(item => item.uid === uid && item.tipo === currentListType)) {
+                    listaSeleccion.push({ ...estudiante, uid, tipo: currentListType, manual: false });
+                    actualizarLista();
+                }
             }
             searchBox.value = "";
             resultDiv.innerHTML = "";
@@ -499,6 +487,8 @@
                     Nombre: nombre,
                     Codigo: "MANUAL",
                     Docente: "",
+                    Sede: sedeActual === TODAS_SEDES ? null : sedeActual,
+                    uid: `man-${++secuenciaManual}`,
                     tipo: currentListType,
                     manual: true
                 });
@@ -526,10 +516,19 @@
                     ? `${idx + 1}. ${est.Nombre}`
                     : `${idx + 1}. ${est.Nombre} - Docente: ${est.Docente}`;
 
+                // Distintivo de sede: útil sobre todo cuando se consulta TODAS
+                if (est.Sede) {
+                    const badge = document.createElement("span");
+                    badge.className = "badge-sede-card ml-2 flex-shrink-0";
+                    badge.style.setProperty("--sede-color", colorSede(est.Sede));
+                    badge.innerHTML = `<span class="sede-dot sede-dot--claro"></span>${etiquetaSede(est.Sede)}`;
+                    textSpan.appendChild(badge);
+                }
+
                 const removeBtn = document.createElement("button");
                 removeBtn.innerHTML = "❌";
                 removeBtn.className = "sm:ml-4 px-3 py-1.5 text-xs sm:text-sm text-white bg-corporate-red hover:bg-red-700 rounded-xl transition-all self-end sm:self-auto";
-                removeBtn.onclick = () => eliminarDeLista(est.Codigo, est.manual);
+                removeBtn.onclick = () => eliminarDeLista(est.uid);
 
                 li.appendChild(textSpan);
                 li.appendChild(removeBtn);
@@ -537,12 +536,10 @@
             });
         }
 
-        function eliminarDeLista(codigo, esManual) {
-            if (esManual) {
-                listaSeleccion = listaSeleccion.filter(item => !(item.Codigo == codigo && item.manual && item.tipo === currentListType));
-            } else {
-                listaSeleccion = listaSeleccion.filter(item => !(item.Codigo == codigo && item.tipo === currentListType));
-            }
+        function eliminarDeLista(uid) {
+            listaSeleccion = listaSeleccion.filter(
+                item => !(item.uid === uid && item.tipo === currentListType)
+            );
             actualizarLista();
         }
 
@@ -577,6 +574,12 @@
 
         // Footer año
         document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Arranque: sedes dinámicas + estudiantes de TODAS las sedes
+        (async function iniciar() {
+            await cargarSedes();
+            await cargarEstudiantes();
+        })();
     </script>
 </body>
 

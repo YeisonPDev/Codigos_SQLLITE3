@@ -126,6 +126,10 @@
                 <h2 class="mb-0">Administración de Códigos</h2>
             </div>
             <div class="col-md-6 d-flex align-items-center justify-content-md-end mt-2 mt-md-0">
+                <!-- Las opciones se cargan dinámicamente desde la base de datos -->
+                <select id="filtroSede" class="form-control mr-2" style="max-width: 160px;">
+                    <option value="">🟪 TODAS</option>
+                </select>
                 <select id="filtroDocente" class="form-control mr-2" style="max-width: 200px;">
                     <option value="">Todos los docentes</option>
                 </select>
@@ -151,6 +155,7 @@
                         <th>Código</th>
                         <th>Docente</th>
                         <th>Encargado</th>
+                        <th>Sede</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -161,6 +166,11 @@
 
     <!-- 🔹 Datalist global para sugerencias de docentes -->
     <datalist id="listaDocentes"></datalist>
+
+    <!-- 🔹 Datalist global con las sedes existentes en la base de datos.
+             Al ser un datalist se puede elegir una sede existente o escribir
+             una nueva sin tocar el código. -->
+    <datalist id="listaSedes"></datalist>
 
     <!-- Modal Agregar -->
     <div class="modal fade" id="modalAgregar" tabindex="-1">
@@ -179,6 +189,9 @@
                         <input type="text" class="form-control mb-2" name="docente" placeholder="Docente"
                             list="listaDocentes">
                         <input type="text" class="form-control mb-2" name="encargado" placeholder="Encargado">
+                        <input type="text" class="form-control mb-2" name="sede" placeholder="Sede" list="listaSedes"
+                            required>
+                        <small class="text-muted" id="ayudaSedeAgregar"></small>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Guardar</button>
@@ -206,6 +219,7 @@
                         <input type="text" class="form-control mb-2" name="docente" placeholder="Docente"
                             list="listaDocentes">
                         <input type="text" class="form-control mb-2" name="encargado" placeholder="Encargado">
+                        <input type="text" class="form-control mb-2" name="sede" placeholder="Sede" list="listaSedes">
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Actualizar</button>
@@ -231,11 +245,12 @@
                             <select class="form-control mb-3" id="campoEditar">
                                 <option value="Docente">Docente</option>
                                 <option value="Encargado">Encargado</option>
+                                <option value="Sede">Sede</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>Nuevo valor:</label>
-                            <!-- 🔹 Input con datalist para sugerencias de docentes si el campo seleccionado es Docente -->
+                            <!-- 🔹 El datalist cambia según el campo elegido (docentes o sedes) -->
                             <input type="text" class="form-control" id="nuevoValor" placeholder="Ingrese nuevo valor"
                                 list="listaDocentes">
                         </div>
@@ -264,8 +279,40 @@
             const res = await fetch("/api/codigos");
             const data = await res.json();
             codigosGlobal = data;
-            renderTabla(data);
             actualizarDocentes(); // Actualiza lista de docentes
+            await actualizarSedes(); // Actualiza sedes (dinámicas desde la BD)
+            aplicarFiltros();
+        }
+
+        // 🔹 Sedes dinámicas: se piden al backend, que las descubre en la BD.
+        //    No hay ninguna lista fija de sedes en este archivo.
+        async function actualizarSedes() {
+            const filtro = document.getElementById("filtroSede");
+            const listaSedes = document.getElementById("listaSedes");
+            const actual = filtro.value;
+
+            let sedes = [];
+            try {
+                const res = await fetch("/api/sedes");
+                if (res.ok) {
+                    const data = await res.json();
+                    if (Array.isArray(data)) sedes = data;
+                }
+            } catch (e) {
+                console.warn("No se pudieron cargar las sedes:", e.message);
+            }
+
+            filtro.innerHTML = '<option value="">🟪 TODAS</option>';
+            listaSedes.innerHTML = '';
+
+            sedes.forEach(sede => {
+                filtro.add(new Option(sede, sede));
+                const option = document.createElement('option');
+                option.value = sede;
+                listaSedes.appendChild(option);
+            });
+
+            if (actual && sedes.includes(actual)) filtro.value = actual;
         }
 
         // 🔹 Renderizar tabla
@@ -281,6 +328,7 @@
                     <td>${codigo.Codigo}</td>
                     <td>${codigo.Docente || ''}</td>
                     <td>${codigo.Encargado || ''}</td>
+                    <td>${codigo.Sede || '<span class="text-muted">— sin sede —</span>'}</td>
                     <td>
                         <button class="btn btn-warning btn-sm mr-1" onclick="abrirModalEditar(${codigo.id})">✏️ Editar</button>
                         <button class="btn btn-danger btn-sm" onclick="eliminarCodigo(${codigo.id})">🗑️ Eliminar</button>
@@ -291,13 +339,35 @@
             actualizarContadorSeleccionados();
         }
 
-        // 🔹 Buscar por texto
-        document.getElementById("searchInput").addEventListener("input", function () {
-            const value = this.value.trim().toLowerCase();
-            const filtrados = codigosGlobal.filter(c =>
-                c.Nombre.toLowerCase().includes(value) || String(c.Codigo).includes(value)
-            );
+        // 🔹 Filtros combinados: sede + docente + texto
+        function aplicarFiltros() {
+            const texto = document.getElementById("searchInput").value.trim().toLowerCase();
+            const sede = document.getElementById("filtroSede").value;
+            const docente = document.getElementById("filtroDocente").value;
+
+            const filtrados = codigosGlobal.filter(c => {
+                if (sede && (c.Sede || '') !== sede) return false;
+                if (docente && c.Docente !== docente) return false;
+                if (texto && !(String(c.Nombre || '').toLowerCase().includes(texto) ||
+                    String(c.Codigo).includes(texto))) return false;
+                return true;
+            });
+
             renderTabla(filtrados);
+        }
+
+        document.getElementById("searchInput").addEventListener("input", aplicarFiltros);
+        document.getElementById("filtroSede").addEventListener("change", aplicarFiltros);
+
+        // 🔹 Al abrir "Agregar": si se está trabajando en una sede concreta se
+        //    asigna automáticamente; con TODAS hay que elegirla explícitamente.
+        $('#modalAgregar').on('show.bs.modal', function () {
+            const sedeActiva = document.getElementById("filtroSede").value;
+            const form = document.getElementById("formAgregar");
+            form.sede.value = sedeActiva;
+            document.getElementById("ayudaSedeAgregar").textContent = sedeActiva
+                ? `Sede asignada automáticamente: ${sedeActiva}`
+                : 'Estás consultando TODAS las sedes: selecciona la sede del estudiante.';
         });
 
         // 🔹 Agregar nuevo código
@@ -310,14 +380,21 @@
                 Nombre: data.nombre,
                 Codigo: Number(data.codigo),
                 Docente: data.docente || '',
-                Encargado: data.encargado || ''
+                Encargado: data.encargado || '',
+                Sede: (data.sede || '').trim()
             };
 
-            await fetch("/api/codigos", {
+            const res = await fetch("/api/codigos", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
             });
+
+            if (!res.ok) {
+                const err = await res.json().catch(() => ({}));
+                alert(err.error || "No se pudo guardar el registro.");
+                return;
+            }
 
             $("#modalAgregar").modal("hide");
             e.target.reset();
@@ -334,6 +411,7 @@
             form.codigo.value = codigo.Codigo;
             form.docente.value = codigo.Docente || '';
             form.encargado.value = codigo.Encargado || '';
+            form.sede.value = codigo.Sede || '';
             $("#modalEditar").modal("show");
         }
 
@@ -347,14 +425,21 @@
                 Nombre: data.nombre,
                 Codigo: Number(data.codigo),
                 Docente: data.docente || '',
-                Encargado: data.encargado || ''
+                Encargado: data.encargado || '',
+                Sede: (data.sede || '').trim()
             };
 
-            await fetch(`/api/codigos/${data.id}`, {
+            const res = await fetch(`/api/codigos/${data.id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
             });
+
+            if (!res.ok) {
+                const err = await res.json().catch(() => ({}));
+                alert(err.error || "No se pudo actualizar el registro.");
+                return;
+            }
 
             $("#modalEditar").modal("hide");
             cargarCodigos();
@@ -407,20 +492,29 @@
                 return;
             }
 
+            const errores = [];
+
             for (const id of seleccionados) {
                 const codigoActual = codigosGlobal.find(c => c.id === id);
                 if (!codigoActual) continue;
 
                 const actualizado = { ...codigoActual, [campo]: valor };
 
-                await fetch(`/api/codigos/${id}`, {
+                const res = await fetch(`/api/codigos/${id}`, {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(actualizado)
                 });
+
+                if (!res.ok) {
+                    const err = await res.json().catch(() => ({}));
+                    errores.push(`${codigoActual.Nombre}: ${err.error || res.status}`);
+                }
             }
 
-            alert("Registros actualizados correctamente.");
+            alert(errores.length
+                ? `Actualizados con ${errores.length} error(es):\n\n` + errores.join("\n")
+                : "Registros actualizados correctamente.");
             $('#modalEditarMasivo').modal('hide');
             seleccionados.clear();
             actualizarContadorSeleccionados();
@@ -453,12 +547,13 @@
         }
 
         // 🔹 Filtrar por docente seleccionado
-        document.getElementById("filtroDocente").addEventListener("change", function () {
-            const docenteSeleccionado = this.value;
-            const filtrados = docenteSeleccionado
-                ? codigosGlobal.filter(c => c.Docente === docenteSeleccionado)
-                : codigosGlobal;
-            renderTabla(filtrados);
+        document.getElementById("filtroDocente").addEventListener("change", aplicarFiltros);
+
+        // 🔹 En edición masiva, sugerir docentes o sedes según el campo elegido
+        document.getElementById('campoEditar').addEventListener('change', function () {
+            const input = document.getElementById('nuevoValor');
+            input.setAttribute('list', this.value === 'Sede' ? 'listaSedes' : 'listaDocentes');
+            input.value = '';
         });
 
         // 🔹 Evitar el error de aria-hidden en modales

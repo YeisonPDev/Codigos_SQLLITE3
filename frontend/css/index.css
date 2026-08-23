@@ -1,0 +1,231 @@
+/* ══════════════════════════════════════════
+   Estilos de la página principal (index.html)
+   Complementan las utilidades de Tailwind.
+══════════════════════════════════════════ */
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.theme-dark {
+    background-color: #1a1a2e;
+    color: #eee;
+}
+
+.theme-dark .card-custom {
+    background-color: #16213e;
+    border-color: #0f3460;
+}
+
+.theme-dark .input-custom {
+    background-color: #0f3460;
+    color: #eee;
+    border-color: #1a1a2e;
+}
+
+.theme-dark .nav-custom {
+    background-color: #0f3460;
+    border-color: #1a1a2e;
+}
+
+.theme-dark .list-item-custom {
+    background-color: #16213e;
+    border-color: #0f3460;
+}
+
+.theme-dark .list-item-custom:hover {
+    background-color: #1a1a2e;
+}
+
+.theme-dark .footer-custom {
+    background-color: #0f1419;
+}
+
+.notification {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    left: 1rem;
+    background: #1E3A8A;
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: none;
+    z-index: 9999;
+    animation: slideIn 0.3s ease-out;
+    text-align: center;
+    font-size: 0.875rem;
+}
+
+@media (min-width: 640px) {
+    .notification {
+        top: 20px;
+        right: 20px;
+        left: auto;
+        font-size: 1rem;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+#copyArea {
+    position: absolute;
+    left: -9999px;
+}
+
+.footer-custom {
+    background: #111827;
+}
+
+.card-shadow {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.card-shadow:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.theme-toggle-btn {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    z-index: 1000;
+}
+
+@media (min-width: 640px) {
+    .theme-toggle-btn {
+        bottom: 2rem;
+        right: 2rem;
+    }
+}
+
+.nav-shadow {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+@keyframes float-blue {
+
+    0%,
+    100% {
+        transform: translateY(0px) scale(1);
+        filter: brightness(1) hue-rotate(0deg);
+    }
+
+    25% {
+        transform: translateY(-10px) scale(1.05);
+        filter: brightness(1.1) hue-rotate(5deg);
+    }
+
+    50% {
+        transform: translateY(-5px) scale(1.02);
+        filter: brightness(1.2) hue-rotate(10deg);
+    }
+
+    75% {
+        transform: translateY(-15px) scale(1.03);
+        filter: brightness(1.1) hue-rotate(5deg);
+    }
+}
+
+.animate-float-blue {
+    animation: float-blue 3s ease-in-out infinite;
+}
+
+/* ══════════════════════════════════════════
+   Selector de sedes
+   Colores tomados de una gama categórica validada
+   (misma familia tonal en toda la app, nada de
+   colores primarios puros mezclados sin criterio).
+══════════════════════════════════════════ */
+.sede-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1.1rem;
+    border-radius: 9999px;
+    border: 1.5px solid color-mix(in srgb, var(--sede-color) 45%, transparent);
+    background: color-mix(in srgb, var(--sede-color) 10%, white);
+    color: var(--sede-color);
+    font-weight: 600;
+    font-size: 0.8125rem;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+@media (min-width: 640px) {
+    .sede-pill {
+        font-size: 0.875rem;
+    }
+}
+
+.sede-pill:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.theme-dark .sede-pill {
+    background: color-mix(in srgb, var(--sede-color) 22%, #16213e);
+    border-color: color-mix(in srgb, var(--sede-color) 55%, transparent);
+}
+
+/* La sede activa se distingue por color de fondo sólido y por el ✓,
+   nunca sólo por el color. */
+.sede-pill.activa {
+    background: var(--sede-color);
+    border-color: var(--sede-color);
+    color: #fff;
+    box-shadow: 0 3px 10px color-mix(in srgb, var(--sede-color) 45%, transparent);
+}
+
+/* Punto de color: identifica la sede sin depender únicamente del texto,
+   siempre acompañado del nombre. */
+.sede-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--sede-color);
+    flex-shrink: 0;
+}
+
+.sede-pill.activa .sede-dot {
+    background: rgba(255, 255, 255, 0.85);
+}
+
+/* Variante para usar sobre un fondo ya sólido del color de la sede
+   (insignias y el banner "CONSULTANDO"). */
+.sede-dot--claro {
+    background: rgba(255, 255, 255, 0.85);
+}
+
+.badge-sede-card {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.15rem 0.55rem;
+    border-radius: 9999px;
+    background: var(--sede-color);
+    color: #fff;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+#sedeBanner {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}

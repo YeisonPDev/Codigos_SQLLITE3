@@ -14,6 +14,25 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Valor especial que representa "sin filtro de sede".
+// NUNCA se guarda como sede de un estudiante, sólo se usa al consultar.
+const TODAS_SEDES = "TODAS";
+
+// Normaliza lo que llega del cliente: "" / "TODAS" / undefined -> null (sin sede)
+function normalizarSede(valor) {
+  const s = (valor ?? "").toString().trim();
+  if (!s || s.toUpperCase() === TODAS_SEDES) return null;
+  return s;
+}
+
+// Las sedes se comparan sin distinguir mayúsculas para que "Merced",
+// "merced" y "MERCED" no se conviertan en tres sedes distintas.
+// Se escapan los comodines de LIKE para que la comparación sea exacta.
+function filtroSede(consulta, sede) {
+  const patron = sede.replace(/([\\%_*])/g, "\\$1");
+  return consulta.ilike("Sede", patron);
+}
+
 // --- Middlewares ---
 app.use(cors());
 app.use(express.json());
@@ -35,13 +54,22 @@ app.use(express.static(path.join(__dirname, "../frontend")));
 
 /* ====================================
    1. OBTENER TODOS LOS REGISTROS
+   Filtro opcional por sede:  /api/codigos?sede=Merced
+   Sin el parámetro (o con sede=TODAS) devuelve todas las sedes.
 ==================================== */
 app.get("/api/codigos", async (req, res) => {
   try {
-    const { data, error } = await supabase
+    const sede = normalizarSede(req.query.sede);
+
+    let consulta = supabase
       .from("Codigos")
       .select("*")
       .order("id", { ascending: true });
+
+    // Sede específica -> equivalente a  WHERE Sede = 'Merced'
+    if (sede) consulta = filtroSede(consulta, sede);
+
+    const { data, error } = await consulta;
 
     if (error) throw error;
 
@@ -53,15 +81,68 @@ app.get("/api/codigos", async (req, res) => {
 });
 
 /* ====================================
+   1.b SEDES DISPONIBLES (DINÁMICAS)
+   Se descubren desde la propia base de datos:
+   son los valores distintos de la columna Sede.
+   No hay ninguna lista fija en el código.
+==================================== */
+app.get("/api/sedes", async (req, res) => {
+  try {
+    const { data, error } = await supabase.from("Codigos").select("Sede");
+
+    if (error) throw error;
+
+    // Valores distintos, agrupando variantes de mayúsculas/minúsculas
+    const unicas = new Map();
+    for (const r of data) {
+      const sede = (r.Sede ?? "").trim();
+      if (sede && !unicas.has(sede.toLowerCase())) {
+        unicas.set(sede.toLowerCase(), sede);
+      }
+    }
+
+    const sedes = [...unicas.values()].sort((a, b) => a.localeCompare(b, "es"));
+
+    res.json(sedes);
+  } catch (err) {
+    console.error("❌ Error al obtener sedes:", err.message);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+});
+
+/* ====================================
+   Un mismo código puede repetirse en sedes distintas.
+   Lo que NO se permite es el mismo código dos veces
+   dentro de la MISMA sede (codigo + sede es único).
+==================================== */
+async function existeCodigoEnSede(Codigo, sede, ignorarId = null) {
+  let consulta = supabase.from("Codigos").select("id").eq("Codigo", Codigo);
+
+  consulta = sede ? filtroSede(consulta, sede) : consulta.is("Sede", null);
+  if (ignorarId) consulta = consulta.neq("id", ignorarId);
+
+  const { data, error } = await consulta;
+  if (error) throw error;
+  return data.length > 0;
+}
+
+/* ====================================
    2. AGREGAR UN NUEVO REGISTRO
 ==================================== */
 app.post("/api/codigos", async (req, res) => {
   try {
     const { Nombre, Codigo, Docente, Encargado } = req.body;
+    const Sede = normalizarSede(req.body.Sede);
+
+    if (await existeCodigoEnSede(Codigo, Sede)) {
+      return res.status(409).json({
+        error: `El código ${Codigo} ya existe en la sede ${Sede || "(sin sede)"}`,
+      });
+    }
 
     const { data, error } = await supabase
       .from("Codigos")
-      .insert([{ Nombre, Codigo, Docente, Encargado }])
+      .insert([{ Nombre, Codigo, Docente, Encargado, Sede }])
       .select();
 
     if (error) throw error;
@@ -80,6 +161,7 @@ app.put("/api/codigos/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const { Nombre, Codigo, Docente, Encargado } = req.body;
+    const Sede = normalizarSede(req.body.Sede);
 
     // Verificar que el registro exista
     const { data: existe, error: errorExiste } = await supabase
@@ -92,9 +174,15 @@ app.put("/api/codigos/:id", async (req, res) => {
       return res.status(404).json({ error: "Registro no encontrado" });
     }
 
+    if (await existeCodigoEnSede(Codigo, Sede, id)) {
+      return res.status(409).json({
+        error: `El código ${Codigo} ya existe en la sede ${Sede || "(sin sede)"}`,
+      });
+    }
+
     const { data, error } = await supabase
       .from("Codigos")
-      .update({ Nombre, Codigo, Docente, Encargado })
+      .update({ Nombre, Codigo, Docente, Encargado, Sede })
       .eq("id", id)
       .select();
 
